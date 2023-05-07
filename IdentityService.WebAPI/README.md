@@ -12,11 +12,10 @@
 ### Publish
 
 ## Todo
-- User entity modifications (refresh token, profile photo url, blocked users, blockers etc.)
-- Clear responses for bad http requests
-- Blocking, unblocking users
-- Search, modify, delete endpoints for users
+- RabbitMQ publish register events to the Profile Service
 - Centralized logging
+- Docker hosting
+- User entity modifications (refresh token)
+- Clear responses for bad http requests
 - Cors
 - Async communication with other microservices
-- Docker hosting

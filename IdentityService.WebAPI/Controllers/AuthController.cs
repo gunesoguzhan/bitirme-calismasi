@@ -17,6 +17,7 @@ public class AuthController : ControllerBase
     private readonly JwtTokenHandler _jwtTokenHandler;
     private readonly ApplicationDbContext _dbContext;
     private readonly PasswordHasher _passwordHasher;
+    private readonly ILogger<AuthController> _logger;
 
     public AuthController
         (
@@ -24,13 +25,15 @@ public class AuthController : ControllerBase
             IValidator<RegisterUserDto> registerUserDtoValidator,
             JwtTokenHandler jwtTokenHandler,
             ApplicationDbContext dbContext,
-            PasswordHasher passwordHasher)
+            PasswordHasher passwordHasher,
+            ILogger<AuthController> logger)
     {
         _loginUserDtoValidator = loginUserDtoValidator;
         _registerUserDtoValidator = registerUserDtoValidator;
         _jwtTokenHandler = jwtTokenHandler;
         _dbContext = dbContext;
         _passwordHasher = passwordHasher;
+        _logger = logger;
     }
 
     [HttpPost("Login")]
@@ -39,7 +42,10 @@ public class AuthController : ControllerBase
         //Validate model. If model is not valid return 400.
         var validationResult = await _loginUserDtoValidator.ValidateAsync(loginUserDto);
         if (!validationResult.IsValid)
+        {
+            _logger.LogInformation($"Model is not valid.");
             return BadRequest();
+        }
 
         // Return token. If there is an exception return 500.
         try
@@ -50,11 +56,15 @@ public class AuthController : ControllerBase
 
             // Verify password. If there is no user or passwords do not match return 404.
             if (user == null || !_passwordHasher.VerifyPassword(user.HashedPassword, loginUserDto.password))
+            {
+                _logger.LogInformation("User not found or the password is incorrect.");
                 return NotFound();
+            }
             return Content(_jwtTokenHandler.GenerateToken(user, TimeSpan.FromMinutes(20)));
         }
         catch (Exception ex)
         {
+            _logger.LogError("An exception has been caught", ex);
             return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
         }
     }
@@ -65,21 +75,29 @@ public class AuthController : ControllerBase
         //Validate model. If model is not valid return 400;
         var validationResult = await _registerUserDtoValidator.ValidateAsync(registerUserDto);
         if (!validationResult.IsValid)
+        {
+            _logger.LogInformation($"Model is not valid.");
             return BadRequest();
+        }
 
         // Check if user is already created. If it is already created return 400.
         var user = _dbContext.Users.FirstOrDefault(x => x.Username == registerUserDto.username || x.Email == registerUserDto.email);
         if (user != null)
+        {
+            _logger.LogInformation("User already exists.");
             return BadRequest();
+        }
 
         // Hash password. If there is an exception return 500.
         string hashedPassword;
         try
         {
             hashedPassword = _passwordHasher.HashPassword(registerUserDto.password);
+            _logger.LogInformation("Password hashed.");
         }
         catch (Exception ex)
         {
+            _logger.LogError("An exception has been caught", ex);
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
 
@@ -97,10 +115,12 @@ public class AuthController : ControllerBase
         {
             await _dbContext.Users.AddAsync(user);
             await _dbContext.SaveChangesAsync();
+            _logger.LogInformation("User created.");
             return Ok();
         }
         catch (Exception ex)
         {
+            _logger.LogError("An exception has been caught", ex);
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }

@@ -7,8 +7,17 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using IdentityService.WebAPI.Settings;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+//Serilog Configuration
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .CreateLogger();
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog();
+Serilog.Debugging.SelfLog.Enable(Console.Error);
 
 // Add services to the container.
 builder.Services.AddFluentValidation();

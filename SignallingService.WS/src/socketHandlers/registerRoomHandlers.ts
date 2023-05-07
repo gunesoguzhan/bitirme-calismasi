@@ -1,6 +1,6 @@
 import { Server, Socket } from 'socket.io'
 
-export const roomHandler = (io: Server, socket: Socket) => {
+export const registerRoomHandlers = (io: Server, socket: Socket) => {
     const joinRoom = ({ roomId }: { roomId: string }) => {
         socket.join(roomId)
         socket.to(roomId).emit('user:joined')

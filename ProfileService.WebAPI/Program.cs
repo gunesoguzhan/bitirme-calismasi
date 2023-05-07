@@ -6,8 +6,17 @@ using Microsoft.IdentityModel.Tokens;
 using ProfileService.WebAPI.Common;
 using ProfileService.WebAPI.Data;
 using ProfileService.WebAPI.Settings;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+//Serilog configuration
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .CreateLogger();
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog();
+Serilog.Debugging.SelfLog.Enable(Console.Error);
 
 // Add services to the container.
 builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();

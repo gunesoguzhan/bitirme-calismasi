@@ -1,7 +1,7 @@
 using System.Security.Claims;
 using ChatService.WebAPI.Common;
 using ChatService.WebAPI.DataAccess;
-using ChatService.WebAPI.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,6 +9,7 @@ namespace ChatService.WebAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+[Authorize]
 public class ConversationController : ControllerBase
 {
 

@@ -8,14 +8,13 @@ class LoginUserDtoValidator : AbstractValidator<LoginUserDto>
     public LoginUserDtoValidator()
     {
         RuleFor(x => x.usernameOrEmail)
-            .NotEmpty()
-            .Matches(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$|^[\w\d]+$")
-            .WithMessage("Username or e-mail must be valid.")
-            .MinimumLength(4)
-            .MaximumLength(360);
+            .NotEmpty().WithMessage("Required.")
+            .Matches(@"^[a-zA-Z0-9_-]{3,30}$|^([a-zA-Z0-9._%+-]+)@([a-zA-Z0-9.-]+.[a-zA-Z]{2,})$")
+            .WithMessage("Enter a valid username or email.");
 
         RuleFor(x => x.password)
-            .NotEmpty()
-            .MinimumLength(6);
+            .NotEmpty().WithMessage("Required.")
+            .Matches(@"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$")
+            .WithMessage("Enter one letter, one number and 8 characters at least.");
     }
 }

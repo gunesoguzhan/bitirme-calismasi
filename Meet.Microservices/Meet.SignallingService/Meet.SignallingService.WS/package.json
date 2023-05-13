@@ -1,0 +1,29 @@
+{
+  "name": "meet.signallingservice.ws",
+  "version": "1.0.0",
+  "description": "Signalling service for WebRTC connection.",
+  "main": "app.js",
+  "scripts": {
+    "start": "ts-node-dev src/app.ts ",
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "gunesoguzhan gunesoguzhan@outlook.com.tr",
+  "license": "ISC",
+  "dependencies": {
+    "jsonwebtoken": "^9.0.0",
+    "socket.io": "^4.6.1",
+    "winston": "^3.8.2"
+  },
+  "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.2",
+    "@types/node": "^18.15.13",
+    "@types/winston": "^2.4.4",
+    "@typescript-eslint/eslint-plugin": "^5.59.0",
+    "@typescript-eslint/parser": "^5.59.0",
+    "eslint": "^8.39.0",
+    "ts-node": "^10.9.1",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.0.4"
+  }
+}

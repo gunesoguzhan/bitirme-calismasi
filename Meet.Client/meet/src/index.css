@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Ysabeau&display=swap');
+@tailwind base;
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #2e1065 white;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+  transition: 0.15s ease-in-out;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #1e293b;
+}
+
+*::-webkit-scrollbar-thumb:hover{
+  background-color: #475569;
+}
+
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: 'Ysabeau', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #030408;
+  box-sizing: border-box;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+}

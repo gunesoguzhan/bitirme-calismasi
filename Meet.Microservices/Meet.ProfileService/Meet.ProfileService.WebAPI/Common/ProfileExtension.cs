@@ -1,7 +1,7 @@
 using Meet.ProfileService.WebAPI.Dtos;
 using Meet.ProfileService.WebAPI.Entities;
 
-namespace ProfileService.WebAPI.Common;
+namespace Meet.ProfileService.WebAPI.Common;
 
 public static class ProfileExtension
 {

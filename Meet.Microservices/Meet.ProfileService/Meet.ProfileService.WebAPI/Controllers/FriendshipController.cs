@@ -52,7 +52,7 @@ public class FriendshipController : ControllerBase
             _logger.LogInformation("Model is not valid.");
             return BadRequest();
         }
-        var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var userIdString = User.FindFirstValue("userId");
         if (userIdString == null)
         {
             _logger.LogWarning("There is a problem with JWT.");
@@ -114,7 +114,7 @@ public class FriendshipController : ControllerBase
             _logger.LogInformation("Model is not valid.");
             return BadRequest();
         }
-        var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var userIdString = User.FindFirstValue("userId");
         if (userIdString == null)
         {
             _logger.LogWarning("There is a problem with JWT.");
@@ -167,7 +167,7 @@ public class FriendshipController : ControllerBase
             _logger.LogInformation("Model is not valid.");
             return BadRequest();
         }
-        var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var userIdString = User.FindFirstValue("userId");
         if (userIdString == null)
         {
             _logger.LogWarning("There is a problem with JWT.");
@@ -217,7 +217,7 @@ public class FriendshipController : ControllerBase
             _logger.LogInformation("Model is not valid.");
             return BadRequest();
         }
-        var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var userIdString = User.FindFirstValue("userId");
         if (userIdString == null)
         {
             _logger.LogWarning("There is a problem with JWT.");
@@ -263,7 +263,7 @@ public class FriendshipController : ControllerBase
             _logger.LogInformation("Model is not valid.");
             return BadRequest();
         }
-        var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var userIdString = User.FindFirstValue("userId");
         if (userIdString == null)
         {
             _logger.LogWarning("There is a problem with JWT.");
@@ -305,7 +305,7 @@ public class FriendshipController : ControllerBase
     [HttpGet("GetFriends")]
     public async Task<IActionResult> GetFriends()
     {
-        var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var userIdString = User.FindFirstValue("userId");
         if (userIdString == null)
         {
             _logger.LogWarning("There is a problem with JWT.");
@@ -336,7 +336,7 @@ public class FriendshipController : ControllerBase
     [HttpGet("GetSentFriendshipRequests")]
     public async Task<IActionResult> GetSentFriendshipRequestsByUsername()
     {
-        var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var userIdString = User.FindFirstValue("userId");
         if (userIdString == null)
         {
             _logger.LogWarning("There is a problem with JWT.");
@@ -366,7 +366,7 @@ public class FriendshipController : ControllerBase
     [HttpGet("GetReceivedFriendshipRequests")]
     public async Task<IActionResult> GetReceivedFriendshipRequestsByUsername()
     {
-        var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var userIdString = User.FindFirstValue("userId");
         if (userIdString == null)
         {
             _logger.LogWarning("There is a problem with JWT.");

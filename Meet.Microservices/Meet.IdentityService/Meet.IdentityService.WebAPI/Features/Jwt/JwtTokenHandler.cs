@@ -29,7 +29,7 @@ public class JwtTokenHandler
         //Set token claims.
         var claims = new Claim[]
         {
-            new(ClaimTypes.NameIdentifier, user.Username)
+            new("userId", user.Id.ToString())
         };
 
         //Generate token.

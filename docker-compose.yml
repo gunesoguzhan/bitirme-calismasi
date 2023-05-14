@@ -1,8 +1,8 @@
 version: "3.8"
 
 services:
-  # sql for microservices
-  # docker run --restart unsless-stopped -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=yourStrong(!)Password" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-latest
+  # mssql for microservices
+  # docker run --name mssql --restart unsless-stopped -e ACCEPT_EULA=Y -e MSSQL_SA_PASSWORD=Qwer1234! -p 1433:1433 mcr.microsoft.com/mssql/server:2022-latest
   mssql:
     image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: mssql
@@ -14,7 +14,7 @@ services:
       - 1433:1433
 
   # rabbitmq for async microservice communication
-  # docker run --name rabbitmq --restart unless-stopped -p 5672:5672 -p 15672:15672 rabbitmq:3-management
+  # docker run --name rabbitmq --restart unless-stopped -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DEFAULT_PASS=123456  -p 5672:5672 -p 15672:15672 -v rabbitmq:/var/lib/rabbitmq --hostname rabbitmq rabbitmq:3-management
   rabbitmq:
     image: rabbitmq:3-management
     container_name: rabbitmq
@@ -25,9 +25,12 @@ services:
     ports:
       - 5672:5672
       - 15672:15672
+    volumes:
+      - rabbitmq:/var/lib/rabbitmq
+    hostname: rabbitmq
 
   # datalust/seq for centralized logging both ASP.NET Core and Node.js apps.
-  # docker run --name seq --restart unless-stopped -e ACCEPT_EULA=Y  -v seq-logs:/data -p 80:80 -p 5341:5341 datalust/seq
+  # docker run --name seq --restart unless-stopped -e ACCEPT_EULA=Y -p 80:80 -p 5341:5341 -v seq-logs:/data datalust/seq
   seq:
     image: datalust/seq
     container_name: seq
@@ -41,4 +44,5 @@ services:
       - seq-logs:/data
 
 volumes:
+  rabbitmq:
   seq-logs:

@@ -18,7 +18,7 @@ public class JwtTokenHandler
     public string GenerateToken(User user, TimeSpan tokenExpiration)
     {
         //Get Jwt settings from config. If not found throw ArgumentNullException.
-        var jwtSettings = _configuration.GetSection(nameof(Jwt)).Get<IdentityService.WebAPI.Settings.Jwt>();
+        var jwtSettings = _configuration.GetSection(nameof(Jwt)).Get<IdentityService.WebAPI.Settings.JwtSettings>();
         if (jwtSettings == null || string.IsNullOrEmpty(jwtSettings.SecurityKey))
             throw new ArgumentNullException(nameof(Jwt), $"Configuration setting '{nameof(Jwt)}' is missing or has a null value.");
 

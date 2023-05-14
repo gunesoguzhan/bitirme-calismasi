@@ -1,6 +1,6 @@
 namespace Meet.IdentityService.WebAPI.Settings;
 
-class Jwt
+class JwtSettings
 {
     public string? SecurityKey { get; init; }
     public string? Issuer { get; init; }

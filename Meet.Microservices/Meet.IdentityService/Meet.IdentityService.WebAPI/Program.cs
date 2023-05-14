@@ -8,6 +8,7 @@ using Meet.IdentityService.WebAPI.Settings;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Serilog;
+using MassTransit;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +27,22 @@ builder.Services.AddSingleton<PasswordHasher>();
 builder.Services.AddDbContext<ApplicationDbContext>(
     options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer")));
+builder.Services.AddMassTransit(options =>
+{
+    options.UsingRabbitMq((context, configurator) =>
+    {
+        var rabbitMQSettings = builder.Configuration
+            .GetSection(nameof(RabbitMQSettings)).Get<RabbitMQSettings>();
+        configurator.Host(rabbitMQSettings.Host, h =>
+        {
+            h.Username(rabbitMQSettings.Username);
+            h.Password(rabbitMQSettings.Password);
+        });
+        configurator.ConfigureEndpoints(context, new KebabCaseEndpointNameFormatter(
+            "Meet.IdentityService", false
+        ));
+    });
+});
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -33,7 +50,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
-    var jwtSettings = builder.Configuration.GetSection(nameof(Jwt)).Get<Jwt>();
+    var jwtSettings = builder.Configuration.GetSection(nameof(JwtSettings)).Get<JwtSettings>();
     if (jwtSettings == null) throw new ArgumentNullException();
     options.TokenValidationParameters = new()
     {

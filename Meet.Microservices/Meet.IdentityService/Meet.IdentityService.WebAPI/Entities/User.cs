@@ -7,12 +7,13 @@ public class User
     [Key]
     public Guid Id { get; init; }
 
-    [MaxLength(30)]
+    [StringLength(30)]
     public string Username { get; set; } = null!;
 
     [EmailAddress]
-    [MaxLength(360)]
+    [StringLength(360)]
     public string Email { get; set; } = null!;
 
+    [StringLength(70)]
     public string HashedPassword { get; set; } = null!;
 }

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Meet.IdentityService.WebAPI.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("[controller]/[action]")]
 public class AuthController : ControllerBase
 {
     private readonly IValidator<LoginUserDto> _loginUserDtoValidator;
@@ -42,7 +42,7 @@ public class AuthController : ControllerBase
         _publishEndpoint = publishEndpoint;
     }
 
-    [HttpPost("Login")]
+    [HttpPost]
     public async Task<IActionResult> Login([FromBody] LoginUserDto loginUserDto)
     {
         //Validate model. If model is not valid return 400.
@@ -75,7 +75,7 @@ public class AuthController : ControllerBase
         }
     }
 
-    [HttpPost("Register")]
+    [HttpPost]
     public async Task<IActionResult> Register([FromBody] RegisterUserDto registerUserDto)
     {
         //Validate model. If model is not valid return 400;

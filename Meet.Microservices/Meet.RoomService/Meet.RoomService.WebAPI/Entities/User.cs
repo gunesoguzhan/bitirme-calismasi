@@ -1,10 +1,11 @@
 using System.ComponentModel.DataAnnotations;
-namespace Meet.ChatService.WebAPI.Entities;
+
+namespace Meet.RoomService.WebAPI.Entities;
 
 public class User
 {
     [Key]
-    public Guid Id { get; set; }
+    public Guid Id { get; init; }
 
     [StringLength(30)]
     public string Username { get; set; } = null!;
@@ -15,5 +16,5 @@ public class User
     [StringLength(30)]
     public string LastName { get; set; } = null!;
 
-    public List<Conversation> Conversations { get; } = null!;
+    public List<Room> Rooms { get; set; } = null!;
 }

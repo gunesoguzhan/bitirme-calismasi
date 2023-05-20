@@ -1,13 +1,15 @@
 using System.Security.Claims;
 using Meet.ChatService.WebAPI.Common;
 using Meet.ChatService.WebAPI.DataAccess;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Meet.ChatService.WebAPI.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("[controller]/[action]")]
+[Authorize]
 public class MessageController : ControllerBase
 {
     private readonly ApplicationDbContext _dbContext;
@@ -20,24 +22,22 @@ public class MessageController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetMessagesFromConversationId([FromQuery] Guid conversationId)
+    public async Task<IActionResult> GetMessagesByConversationId([FromQuery] Guid conversationId)
     {
         var userIdString = User.FindFirstValue("userId");
         if (userIdString == null)
-        {
-            _logger.LogWarning("There is a problem with JWT.");
-            return BadRequest();
-        }
+            return Unauthorized();
         Guid userId;
         try
         {
             userId = Guid.Parse(userIdString);
             var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == userId);
+            if (user == null) return NotFound();
             var conversation = _dbContext.Conversations
-                .Include(x => x.Users)
                 .Include(x => x.Messages)
                 .FirstOrDefault(x => x.Id == conversationId && x.Users.Contains(user));
-            var messages = conversation?.Messages.Select(x => x.AsDto());
+            if (conversation == null) return NotFound();
+            var messages = conversation.Messages.Select(x => x.AsDto());
             return Ok(messages);
         }
         catch (Exception ex)
@@ -45,6 +45,5 @@ public class MessageController : ControllerBase
             _logger.LogError("An exception has been caught", ex);
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
-
     }
 }

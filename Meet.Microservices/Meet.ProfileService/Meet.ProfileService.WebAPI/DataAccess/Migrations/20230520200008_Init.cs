@@ -16,9 +16,9 @@ namespace Meet.ProfileService.WebAPI.DataAccess.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", maxLength: 50, nullable: false)
+                    FirstName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", maxLength: 30, nullable: false)
                 },
                 constraints: table =>
                 {

@@ -7,20 +7,20 @@ public class Profile
     [Key]
     public Guid Id { get; init; }
 
-    [MaxLength(50)]
-    public required string FirstName { get; set; }
+    [StringLength(30)]
+    public string FirstName { get; set; } = null!;
 
-    [MaxLength(50)]
-    public required string LastName { get; set; }
+    [StringLength(30)]
+    public string LastName { get; set; } = null!;
 
     public string FullName => $"{FirstName} {LastName}";
 
-    [MaxLength(50)]
-    public required Guid UserId { get; set; }
+    [StringLength(30)]
+    public Guid UserId { get; set; }
 
-    public List<Profile> Friends { get; set; } = new();
+    public List<Profile> Friends { get; set; } = null!;
 
-    public List<Profile> SentFriendshipRequests { get; set; } = new();
+    public List<Profile> SentFriendshipRequests { get; set; } = null!;
 
-    public List<Profile> ReceivedFriendshipRequests { get; set; } = new();
+    public List<Profile> ReceivedFriendshipRequests { get; set; } = null!;
 }

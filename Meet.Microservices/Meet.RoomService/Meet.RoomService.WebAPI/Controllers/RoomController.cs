@@ -1,11 +1,15 @@
 using System.Security.Claims;
 using Meet.RoomService.WebAPI.Common;
 using Meet.RoomService.WebAPI.DataAccess;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
 namespace Meet.RoomService.WebAPI.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("[controller]/[action]")]
+[Authorize]
 public class RoomController : ControllerBase
 {
     private readonly ApplicationDbContext _dbContext;
@@ -18,22 +22,22 @@ public class RoomController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult Get()
+    public async Task<IActionResult> GetRooms()
     {
         var userIdString = User.FindFirstValue("userId");
         if (userIdString == null)
-        {
-            _logger.LogWarning("There is a problem with JWT.");
-            return BadRequest();
-        }
-        Guid userId;
+            return Unauthorized();
         try
         {
-            userId = Guid.Parse(userIdString);
-            return Ok(_dbContext.Rooms.Where(x => x.Users.Contains(userId)).Select(x => x.AsDto()));
+            var userId = Guid.Parse(userIdString);
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == userId);
+            if (user == null) return NotFound();
+            var rooms = _dbContext.Rooms.Where(x => x.Users.Contains(user));
+            return Ok(rooms.Select(x => x.AsDto()));
         }
         catch (Exception ex)
         {
+            _logger.LogError($"Exception caught: {ex}");
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }

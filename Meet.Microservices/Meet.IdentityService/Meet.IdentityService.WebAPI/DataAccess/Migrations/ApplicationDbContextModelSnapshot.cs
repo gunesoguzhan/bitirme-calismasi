@@ -35,7 +35,8 @@ namespace Meet.IdentityService.WebAPI.DataAccess.Migrations
 
                     b.Property<string>("HashedPassword")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(70)
+                        .HasColumnType("nvarchar(70)");
 
                     b.Property<string>("Username")
                         .IsRequired()

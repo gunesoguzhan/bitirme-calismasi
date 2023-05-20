@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Meet.IdentityService.WebAPI.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230514063358_Init")]
+    [Migration("20230520195359_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -38,7 +38,8 @@ namespace Meet.IdentityService.WebAPI.DataAccess.Migrations
 
                     b.Property<string>("HashedPassword")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(70)
+                        .HasColumnType("nvarchar(70)");
 
                     b.Property<string>("Username")
                         .IsRequired()

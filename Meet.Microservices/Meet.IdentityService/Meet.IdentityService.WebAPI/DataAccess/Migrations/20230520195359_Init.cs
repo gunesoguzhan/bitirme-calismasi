@@ -18,7 +18,7 @@ namespace Meet.IdentityService.WebAPI.DataAccess.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Username = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(360)", maxLength: 360, nullable: false),
-                    HashedPassword = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    HashedPassword = table.Column<string>(type: "nvarchar(70)", maxLength: 70, nullable: false)
                 },
                 constraints: table =>
                 {

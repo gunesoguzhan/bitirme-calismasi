@@ -1,13 +1,15 @@
 using System.Security.Claims;
 using Meet.ChatService.WebAPI.Common;
 using Meet.ChatService.WebAPI.DataAccess;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Meet.ChatService.WebAPI.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("[controller]/[action]")]
+[Authorize]
 public class ConversationController : ControllerBase
 {
 
@@ -21,24 +23,20 @@ public class ConversationController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> Get()
+    public async Task<IActionResult> GetConversations()
     {
         var userIdString = User.FindFirstValue("userId");
         if (userIdString == null)
-        {
-            _logger.LogWarning("There is a problem with JWT.");
-            return BadRequest();
-        }
-        Guid userId;
+            return Unauthorized();
         try
         {
-            userId = Guid.Parse(userIdString);
+            var userId = Guid.Parse(userIdString);
             var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == userId);
+            if (user == null) return NotFound();
             var conversations = _dbContext.Conversations
-                .Include(x => x.Messages)
-                .Include(x => x.Users)
-                .Select(x => x.AsDto());
-            return Ok(conversations);
+                .Where(x => x.Users.Contains(user))
+                .Include(x => x.Messages);
+            return Ok(conversations.Select(x => x.AsDto()));
         }
         catch (Exception ex)
         {

@@ -7,5 +7,4 @@ public static class ProfileExtension
 {
     public static ProfileDto AsDto(this Profile profile) =>
         new ProfileDto(profile.FirstName, profile.LastName, profile.FullName);
-
 }

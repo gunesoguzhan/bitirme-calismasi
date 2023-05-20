@@ -1,12 +1,15 @@
 import { NavLink, useNavigate } from 'react-router-dom'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { LoginUserModel } from '../types/LoginUserModel'
+import { useContext } from 'react'
+import { AuthContext } from '../contexts/AuthContext'
 
 export function Login() {
-    const navigate = useNavigate()
-    const { register, handleSubmit, formState: { errors } } = useForm<LoginUserModel>()
-    const onSubmit: SubmitHandler<LoginUserModel> = data => {
 
+    const { login } = useContext(AuthContext)
+    const { register, handleSubmit, formState: { errors } } = useForm<LoginUserModel>()
+    const onSubmit: SubmitHandler<LoginUserModel> = async (data) => {
+        await login(data)
     }
 
     return (

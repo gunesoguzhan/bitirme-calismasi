@@ -2,6 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Meet.IdentityService.WebAPI.Entities;
+using Meet.IdentityService.WebAPI.Settings;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Meet.IdentityService.WebAPI.Features.Jwt;
@@ -18,7 +19,7 @@ public class JwtTokenHandler
     public string GenerateToken(User user, TimeSpan tokenExpiration)
     {
         //Get Jwt settings from config. If not found throw ArgumentNullException.
-        var jwtSettings = _configuration.GetSection(nameof(Jwt)).Get<IdentityService.WebAPI.Settings.JwtSettings>();
+        var jwtSettings = _configuration.GetSection(nameof(JwtSettings)).Get<JwtSettings>();
         if (jwtSettings == null || string.IsNullOrEmpty(jwtSettings.SecurityKey))
             throw new ArgumentNullException(nameof(Jwt), $"Configuration setting '{nameof(Jwt)}' is missing or has a null value.");
 

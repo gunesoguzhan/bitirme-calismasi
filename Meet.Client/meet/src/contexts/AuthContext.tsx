@@ -2,21 +2,25 @@ import { createContext, useMemo, useState } from 'react'
 import { LoginUserModel } from '../types/LoginUserModel'
 import axios from 'axios'
 import jwtDecode from 'jwt-decode'
+import { useNavigate } from 'react-router-dom'
 
 export const AuthContext = createContext<AuthContextType>()
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
+    const navigate = useNavigate()
     const [userId, setUserId] = useState<string>()
 
-    const signIn = async (loginUser: LoginUserModel) => {
-        const response = await axios.post("http://localhost:5132/auth/login", loginUser)
-        if (response.status !== 200) return false
+    const login = async (loginUser: LoginUserModel) => {
+        const response = await axios.post("http://localhost:4000/api/auth/login", loginUser)
+        if (response.status !== 200) return
         localStorage.setItem('token', response.data)
         setUser(response.data)
-        return true
+        // get all rooms
+        // join rooms with socket
+        navigate('/')
     }
 
-    const signOut = () => {
+    const logout = () => {
         localStorage.removeItem('token')
     }
 
@@ -39,7 +43,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }, [])
 
     return (
-        <AuthContext.Provider value={{ userId, signIn, signOut }}>
+        <AuthContext.Provider value={{ userId, login, logout }}>
             {children}
         </AuthContext.Provider>
     )
@@ -47,8 +51,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
 type AuthContextType = {
     userId?: string
-    signIn: (loginUser: LoginUserModel) => Promise<boolean>
-    signOut: () => void
+    login: (loginUser: LoginUserModel) => Promise<boolean>
+    logout: () => void
 }
 
 type TokenType = {

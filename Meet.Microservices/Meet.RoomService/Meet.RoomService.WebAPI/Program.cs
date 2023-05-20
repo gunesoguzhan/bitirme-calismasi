@@ -1,21 +1,15 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Meet.ProfileService.WebAPI.Common;
-using Meet.ProfileService.WebAPI.Data;
 using Meet.Common.Extensions;
+using Meet.RoomService.WebAPI.DataAccess;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Logging.AddSerilogWithSettings(builder.Configuration);
 
 // Add services to the container.
-builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-builder.Services.AddFluentValidation();
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Mssql")));
 builder.Services.AddControllers();
-builder.Services.AddDbContext<ApplicationDbContext>(
-    options =>
-        options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer")));
-builder.Services.AddMassTransitWithSettings();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

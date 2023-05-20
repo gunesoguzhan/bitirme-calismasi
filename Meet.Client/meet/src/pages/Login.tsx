@@ -49,14 +49,14 @@ export function Login() {
                     </div>
                     <button type="submit"
                         className="bg-[#190d30] rounded-lg py-2 px-4 font-bold hover:bg-slate-800 hover:text-white transition duration-200 w-full">
-                        Sign In
+                        Log In
                     </button>
                 </form>
                 <div className="text-center mt-4">
                     <p className="text-gray-600">
                         Don't have an account?{' '}
                         <NavLink to="/register" className="text-slate-300 hover:text-slate-100">
-                            Sign Up
+                            Register
                         </NavLink>
                     </p>
                 </div>

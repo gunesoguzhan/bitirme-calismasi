@@ -1,3 +1,4 @@
+import axios from 'axios'
 import { createContext, useEffect, useState } from 'react'
 import { Socket, io } from 'socket.io-client'
 
@@ -10,7 +11,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
 
     useEffect(() => {
         socket.connect()
-        //getAllRooms
+        // axios.get('api/rooms')
         //rooms.foreach(room:join)
         return () => { socket.disconnect() }
     }, [socket])

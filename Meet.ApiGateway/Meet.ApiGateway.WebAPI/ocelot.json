@@ -6,7 +6,7 @@
             "DownstreamHostAndPorts": [
                 {
                     "Host": "localhost",
-                    "Port": 5000
+                    "Port": 5181
                 }
             ],
             "UpstreamPathTemplate": "/api/auth/login",
@@ -20,80 +20,10 @@
             "DownstreamHostAndPorts": [
                 {
                     "Host": "localhost",
-                    "Port": 5000
+                    "Port": 5181
                 }
             ],
             "UpstreamPathTemplate": "/api/auth/register",
-            "UpstreamHttpMethod": [
-                "POST"
-            ]
-        },
-        {
-            "DownstreamPathTemplate": "/friendship/sendFriendshipRequest",
-            "DownstreamScheme": "http",
-            "DownstreamHostAndPorts": [
-                {
-                    "Host": "localhost",
-                    "Port": 6000
-                }
-            ],
-            "UpstreamPathTemplate": "/api/friendship/sendFriendshipRequest",
-            "UpstreamHttpMethod": [
-                "POST"
-            ]
-        },
-        {
-            "DownstreamPathTemplate": "/friendship/acceptFriendshipRequest",
-            "DownstreamScheme": "http",
-            "DownstreamHostAndPorts": [
-                {
-                    "Host": "localhost",
-                    "Port": 6000
-                }
-            ],
-            "UpstreamPathTemplate": "/api/friendship/acceptFriendshipRequest",
-            "UpstreamHttpMethod": [
-                "POST"
-            ]
-        },
-        {
-            "DownstreamPathTemplate": "/friendship/rejectFriendshipRequest",
-            "DownstreamScheme": "http",
-            "DownstreamHostAndPorts": [
-                {
-                    "Host": "localhost",
-                    "Port": 6000
-                }
-            ],
-            "UpstreamPathTemplate": "/api/friendship/rejectFriendshipRequest",
-            "UpstreamHttpMethod": [
-                "POST"
-            ]
-        },
-        {
-            "DownstreamPathTemplate": "/friendship/cancelFriendshipRequest",
-            "DownstreamScheme": "http",
-            "DownstreamHostAndPorts": [
-                {
-                    "Host": "localhost",
-                    "Port": 6000
-                }
-            ],
-            "UpstreamPathTemplate": "/api/friendship/cancelFriendshipRequest",
-            "UpstreamHttpMethod": [
-                "POST"
-            ]
-        },
-        {
-            "DownstreamPathTemplate": "/friendship/removeFriendship",
-            "DownstreamScheme": "http",
-            "DownstreamHostAndPorts": [
-                {
-                    "Host": "localhost",
-                    "Port": 6000
-                }
-            ],
-            "UpstreamPathTemplate": "/api/friendship/removeFriendship",
             "UpstreamHttpMethod": [
                 "POST"
             ]
@@ -104,13 +34,17 @@
             "DownstreamHostAndPorts": [
                 {
                     "Host": "localhost",
-                    "Port": 6000
+                    "Port": 5225
                 }
             ],
             "UpstreamPathTemplate": "/api/friendship/getFriends",
             "UpstreamHttpMethod": [
                 "GET"
-            ]
+            ],
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "jsonwebtoken",
+                "AllowedScopes": []
+            }
         },
         {
             "DownstreamPathTemplate": "/friendship/getSentFriendshipRequests",
@@ -118,7 +52,7 @@
             "DownstreamHostAndPorts": [
                 {
                     "Host": "localhost",
-                    "Port": 6000
+                    "Port": 5225
                 }
             ],
             "UpstreamPathTemplate": "/api/friendship/getSentFriendshipRequests",
@@ -132,7 +66,7 @@
             "DownstreamHostAndPorts": [
                 {
                     "Host": "localhost",
-                    "Port": 6000
+                    "Port": 5225
                 }
             ],
             "UpstreamPathTemplate": "/api/friendship/getReceivedFriendshipRequests",
@@ -146,10 +80,10 @@
             "DownstreamHostAndPorts": [
                 {
                     "Host": "localhost",
-                    "Port": 7000
+                    "Port": 5368
                 }
             ],
-            "UpstreamPathTemplate": "/api/conversation/",
+            "UpstreamPathTemplate": "/api/conversations/",
             "UpstreamHttpMethod": [
                 "GET"
             ]
@@ -160,10 +94,10 @@
             "DownstreamHostAndPorts": [
                 {
                     "Host": "localhost",
-                    "Port": 7000
+                    "Port": 5368
                 }
             ],
-            "UpstreamPathTemplate": "/api/message",
+            "UpstreamPathTemplate": "/api/messages?conversationid=:conversationId",
             "UpstreamHttpMethod": [
                 "GET"
             ]

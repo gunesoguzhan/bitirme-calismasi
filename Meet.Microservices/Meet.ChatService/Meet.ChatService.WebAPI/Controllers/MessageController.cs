@@ -1,7 +1,6 @@
 using System.Security.Claims;
 using Meet.ChatService.WebAPI.Common;
 using Meet.ChatService.WebAPI.DataAccess;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,7 +8,6 @@ namespace Meet.ChatService.WebAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-[Authorize]
 public class MessageController : ControllerBase
 {
     private readonly ApplicationDbContext _dbContext;

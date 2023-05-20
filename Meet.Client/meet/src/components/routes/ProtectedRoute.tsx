@@ -1,9 +1,10 @@
 import { useContext } from 'react'
 import { AuthContext } from '../../contexts/AuthContext'
 import { Navigate, Outlet } from 'react-router-dom'
+import { SocketProvider } from '../../contexts/SocketContext'
 
 export function ProtectedRoute() {
     const { userId } = useContext(AuthContext)
 
-    return userId ? <Outlet /> : <Navigate to={'/login'} />
+    return userId ? <SocketProvider><Outlet /></SocketProvider> : <Navigate to={'/login'} />
 }

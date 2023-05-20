@@ -7,7 +7,9 @@ export function ConversationPanel(props: ConversationPanelProps) {
     const [conversations, setConversations] = useState<ConversationModel[]>()
 
     useEffect(() => {
-        axios.get("").then(response => setConversations(response.data))
+        console.log(axios.defaults.headers.common)
+        axios.defaults.headers.common.Authorization = `bearer ${localStorage.getItem('token')}`
+        axios.get("/api/conversations").then(response => setConversations(response.data))
     }, [])
 
     return (

@@ -1,6 +1,5 @@
 using System.Security.Claims;
 using FluentValidation;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Meet.ProfileService.WebAPI.Common;
@@ -11,7 +10,6 @@ namespace Meet.ProfileService.WebAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-[Authorize]
 public class FriendshipController : ControllerBase
 {
     private readonly ApplicationDbContext _dbContext;

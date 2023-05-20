@@ -1,21 +1,10 @@
-using Meet.ApiGateway.WebAPI.Settings;
+using Meet.Common.Extensions;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddCors(options =>
-{
-    var corsSettings = builder.Configuration
-        .GetSection(nameof(CorsSettings))
-        .Get<CorsSettings>();
-    options.AddDefaultPolicy(policy =>
-    {
-        policy.WithOrigins(corsSettings.AllowedOrigins)
-            .WithHeaders(corsSettings.AllowedHeaders)
-            .WithMethods(corsSettings.AllowedMethods);
-    });
-});
+builder.Services.AddJwtAuthenticationWithSettings().AddCorsWithSettings();
 
 builder.Configuration.SetBasePath(builder.Environment.ContentRootPath)
     .AddJsonFile("ocelot.json", false, true)
@@ -27,6 +16,8 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
     app.UseCors();
+
+app.UseAuthentication();
 
 await app.UseOcelot();
 

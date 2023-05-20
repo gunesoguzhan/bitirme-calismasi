@@ -8,19 +8,21 @@ export const AuthContext = createContext<AuthContextType>()
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
     const navigate = useNavigate()
-    const [userId, setUserId] = useState<string>()
+    const [userId, setUserId] = useState<string | undefined>()
 
     const login = async (loginUser: LoginUserModel) => {
-        const response = await axios.post("http://localhost:4000/api/auth/login", loginUser)
-        if (response.status !== 200) return
-        localStorage.setItem('token', response.data)
-        setUser(response.data)
-        // get all rooms
-        // join rooms with socket
-        navigate('/')
+        try {
+            const response = await axios.post("/api/auth/login", loginUser)
+            localStorage.setItem('token', response.data)
+            setUser(response.data)
+            navigate('/')
+        } catch (err) {
+            console.log(err)
+        }
     }
 
     const logout = () => {
+        setUserId(undefined)
         localStorage.removeItem('token')
     }
 

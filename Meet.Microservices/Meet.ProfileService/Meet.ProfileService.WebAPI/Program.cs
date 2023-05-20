@@ -7,6 +7,8 @@ using Meet.ProfileService.WebAPI.Common;
 using Meet.ProfileService.WebAPI.Data;
 using Meet.ProfileService.WebAPI.Settings;
 using Serilog;
+using MassTransit;
+using Meet.ProfileService.WebAPI.Consumers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +27,24 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<ApplicationDbContext>(
     options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer")));
+builder.Services.AddMassTransit(options =>
+{
+    options.AddConsumer<UserRegisteredConsumer>();
+
+    options.UsingRabbitMq((context, configurator) =>
+    {
+        var rabbitMQSettings = builder.Configuration
+            .GetSection(nameof(RabbitMQSettings)).Get<RabbitMQSettings>();
+        configurator.Host(rabbitMQSettings.Host, h =>
+        {
+            h.Username(rabbitMQSettings.Username);
+            h.Password(rabbitMQSettings.Password);
+        });
+        configurator.ConfigureEndpoints(context, new KebabCaseEndpointNameFormatter(
+            "Meet.ProfileService", false
+        ));
+    });
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

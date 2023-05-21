@@ -11,12 +11,20 @@ export const config = {
         }
     },
     jwt: {
-        audience: 'http://localhost',
-        issuer: 'http://localhost',
+        audience: 'localhost',
+        issuer: 'localhost',
         securityKey: 'This is the security key for development.'
     },
+    rabbitMQ: {
+        url: 'localhost:5672',
+        username: 'admin',
+        password: '123456'
+    },
+    redis: {
+        url: 'redis://localhost:6379'
+    },
     winston: {
-        level: 'info',
+        level: 'debug',
         label: 'SignallingService.WS.Development'
     }
 }

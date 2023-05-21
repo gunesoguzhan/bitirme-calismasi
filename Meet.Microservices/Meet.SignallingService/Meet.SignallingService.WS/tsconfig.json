@@ -7,21 +7,7 @@
         "outDir": "dist",
         "esModuleInterop": true,
         "resolveJsonModule": true,
-        "baseUrl": "src",
-        "paths": {
-            "@logger": [
-                "./logger.ts"
-            ],
-            "@socketHandlers/*": [
-                "./socketHandlers/*"
-            ],
-            "@middlewares/*": [
-                "./middlewares/*"
-            ],
-            "@config": [
-                "./config.ts"
-            ]
-        }
+        "baseUrl": "src"
     },
     "include": [
         "./src/**/*"

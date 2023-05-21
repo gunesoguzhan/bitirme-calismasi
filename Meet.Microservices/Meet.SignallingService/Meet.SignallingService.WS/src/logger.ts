@@ -1,5 +1,5 @@
 import { createLogger, transports, format } from 'winston'
-import { config } from '@config'
+import { config } from './config'
 
 const myFormat = format.printf(({ level, message, label, timestamp }) => {
     return `[${timestamp}] ${label} ${level}: ${message}`

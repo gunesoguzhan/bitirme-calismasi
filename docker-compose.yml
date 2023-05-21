@@ -29,6 +29,15 @@ services:
       - rabbitmq:/var/lib/rabbitmq
     hostname: rabbitmq
 
+    # redis for signalling service
+    # docker run --name my-redis --restart unless-stopped -p 6379:6379 redis
+  redis:
+    image: redis
+    container_name: redis
+    restart: unless-stopped
+    ports:
+      - 6379:6379
+
   # datalust/seq for centralized logging both ASP.NET Core and Node.js apps.
   # docker run --name seq --restart unless-stopped -e ACCEPT_EULA=Y -p 80:80 -p 5341:5341 -v seq-logs:/data datalust/seq
   seq:

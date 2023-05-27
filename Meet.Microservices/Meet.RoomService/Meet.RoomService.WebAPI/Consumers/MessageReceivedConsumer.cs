@@ -31,7 +31,7 @@ public class MessageReceivedConsumer : IConsumer
         new()
         {
             MessageText = @object.messageText,
-            DateTime = @object.dateTime,
+            Date = @object.date,
             User = user,
             Room = room
         });

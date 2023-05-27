@@ -1,15 +1,13 @@
 using System.Security.Claims;
-using Meet.ChatService.WebAPI.Common;
-using Meet.ChatService.WebAPI.DataAccess;
-using Microsoft.AspNetCore.Authorization;
+using Meet.RoomService.WebAPI.Common;
+using Meet.RoomService.WebAPI.DataAccess;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace Meet.ChatService.WebAPI.Controllers;
+namespace Meet.RoomService.WebAPI.Controllers;
 
 [ApiController]
-[Route("[controller]/[action]")]
-[Authorize]
+[Route("[controller]")]
 public class MessageController : ControllerBase
 {
     private readonly ApplicationDbContext _dbContext;
@@ -21,8 +19,8 @@ public class MessageController : ControllerBase
         _logger = logger;
     }
 
-    [HttpGet]
-    public async Task<IActionResult> GetMessagesByConversationId([FromQuery] Guid conversationId)
+    [HttpGet("{roomId}")]
+    public async Task<IActionResult> GetMessagesByRoomIdAsync(Guid roomId)
     {
         var userIdString = User.FindFirstValue("userId");
         if (userIdString == null)
@@ -33,11 +31,11 @@ public class MessageController : ControllerBase
             userId = Guid.Parse(userIdString);
             var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == userId);
             if (user == null) return NotFound();
-            var conversation = _dbContext.Conversations
+            var room = _dbContext.Rooms
                 .Include(x => x.Messages)
-                .FirstOrDefault(x => x.Id == conversationId && x.Users.Contains(user));
-            if (conversation == null) return NotFound();
-            var messages = conversation.Messages.Select(x => x.AsDto());
+                .FirstOrDefault(x => x.Id == roomId && x.Users.Contains(user));
+            if (room == null) return NotFound();
+            var messages = room.Messages.Select(x => x.AsDto());
             return Ok(messages);
         }
         catch (Exception ex)

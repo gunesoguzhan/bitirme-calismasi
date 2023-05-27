@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="11.5.2" />
-    <PackageReference Include="Meet.Common" Version="1.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.5">
@@ -20,7 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Meet.IdentityService\Meet.IdentityService.Contracts\Meet.IdentityService.Contracts.csproj" />
+    <ProjectReference Include="..\..\..\Meet.Common\Meet.Common.csproj" />
   </ItemGroup>
-
 </Project>

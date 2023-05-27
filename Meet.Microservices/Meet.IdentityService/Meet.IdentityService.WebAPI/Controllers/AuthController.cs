@@ -1,6 +1,6 @@
 using FluentValidation;
-using MassTransit;
-using Meet.IdentityService.Contracts;
+using Meet.Common.RabbitMQ;
+using Meet.IdentityService.WebAPI.Contracts;
 using Meet.IdentityService.WebAPI.Data;
 using Meet.IdentityService.WebAPI.Dtos;
 using Meet.IdentityService.WebAPI.Features.Hashing;
@@ -20,7 +20,7 @@ public class AuthController : ControllerBase
     private readonly ApplicationDbContext _dbContext;
     private readonly PasswordHasher _passwordHasher;
     private readonly ILogger<AuthController> _logger;
-    private readonly IPublishEndpoint _publishEndpoint;
+    private readonly RabbitMQClient _rabbitMQClient;
 
     public AuthController
         (
@@ -30,7 +30,7 @@ public class AuthController : ControllerBase
             ApplicationDbContext dbContext,
             PasswordHasher passwordHasher,
             ILogger<AuthController> logger,
-            IPublishEndpoint publishEndpoint
+            RabbitMQClient rabbitMQClient
         )
     {
         _loginUserDtoValidator = loginUserDtoValidator;
@@ -39,7 +39,7 @@ public class AuthController : ControllerBase
         _dbContext = dbContext;
         _passwordHasher = passwordHasher;
         _logger = logger;
-        _publishEndpoint = publishEndpoint;
+        _rabbitMQClient = rabbitMQClient;
     }
 
     [HttpPost]
@@ -121,7 +121,7 @@ public class AuthController : ControllerBase
         {
             await _dbContext.Users.AddAsync(user);
             await _dbContext.SaveChangesAsync();
-            await _publishEndpoint.Publish(new UserRegistered(user.Id, user.Username, registerUserDto.firstName, registerUserDto.lastName));
+            _rabbitMQClient.PublishMessage("Meet-UserRegistered", new UserRegistered(user.Id, user.Username, registerUserDto.firstName, registerUserDto.lastName));
             _logger.LogInformation("User created.");
             return Ok();
         }

@@ -14,11 +14,13 @@ builder.Services.AddFluentValidation();
 builder.Services.AddControllers();
 builder.Services.AddDbContext<ApplicationDbContext>(
     options =>
-        options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer")));
-builder.Services.AddMassTransitWithSettings().AddJwtAuthenticationWithSettings();
+        options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer")), ServiceLifetime.Singleton);
+builder.Services.AddJwtAuthenticationWithSettings();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddRabbitMQ();
+builder.Services.AddRabbitMQConsumers();
 
 var app = builder.Build();
 
@@ -32,6 +34,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseRabbitMQConsumers();
 
 app.MapControllers();
 

@@ -1,11 +1,14 @@
-using MassTransit;
-using Meet.IdentityService.Contracts;
+using System.Text.Json;
+using Meet.Common.RabbitMQ;
+using Meet.ProfileService.WebAPI.Contracts;
 using Meet.ProfileService.WebAPI.Data;
 
 namespace Meet.ProfileService.WebAPI.Consumers;
 
-public class UserRegisteredConsumer : IConsumer<UserRegistered>
+public class UserRegisteredConsumer : IConsumer
 {
+    public string QueueName { get; set; } = "Meet-UserRegistered";
+
     private readonly ApplicationDbContext _dbContext;
 
     public UserRegisteredConsumer(ApplicationDbContext dbContext)
@@ -13,18 +16,20 @@ public class UserRegisteredConsumer : IConsumer<UserRegistered>
         _dbContext = dbContext;
     }
 
-    public async Task Consume(ConsumeContext<UserRegistered> context)
+    public void ConsumeMessage(string message)
     {
-        var message = context.Message;
-        var item = _dbContext.Profiles.FirstOrDefault(x => x.UserId == message.Id);
+        var @object = JsonSerializer.Deserialize<UserRegistered>(message);
+        if (@object == null)
+            return;
+        var item = _dbContext.Profiles.FirstOrDefault(x => x.UserId == @object.id);
         if (item != null)
             return;
-        await _dbContext.Profiles.AddAsync(new()
+        _dbContext.Profiles.Add(new()
         {
-            UserId = message.Id,
-            FirstName = message.firstName,
-            LastName = message.lastName
+            UserId = @object.id,
+            FirstName = @object.firstName,
+            LastName = @object.lastName
         });
-        await _dbContext.SaveChangesAsync();
+        _dbContext.SaveChanges();
     }
 }

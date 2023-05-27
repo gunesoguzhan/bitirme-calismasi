@@ -1,18 +1,16 @@
 using System.Security.Claims;
-using Meet.ChatService.WebAPI.Common;
-using Meet.ChatService.WebAPI.DataAccess;
-using Microsoft.AspNetCore.Authorization;
+using Meet.RoomService.WebAPI.Common;
+using Meet.RoomService.WebAPI.DataAccess;
+using Meet.RoomService.WebAPI.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace Meet.ChatService.WebAPI.Controllers;
+namespace Meet.RoomService.WebAPI.Controllers;
 
 [ApiController]
-[Route("[controller]/[action]")]
-[Authorize]
+[Route("[controller]")]
 public class ConversationController : ControllerBase
 {
-
     private readonly ApplicationDbContext _dbContext;
     private readonly ILogger<ConversationController> _logger;
 
@@ -23,7 +21,7 @@ public class ConversationController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetConversations()
+    public async Task<IActionResult> GetAsync()
     {
         var userIdString = User.FindFirstValue("userId");
         if (userIdString == null)
@@ -33,10 +31,10 @@ public class ConversationController : ControllerBase
             var userId = Guid.Parse(userIdString);
             var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == userId);
             if (user == null) return NotFound();
-            var conversations = _dbContext.Conversations
+            var rooms = _dbContext.Rooms
                 .Where(x => x.Users.Contains(user))
                 .Include(x => x.Messages);
-            return Ok(conversations.Select(x => x.AsDto()));
+            return Ok(rooms.Select(x => x.AsConversationDto()));
         }
         catch (Exception ex)
         {

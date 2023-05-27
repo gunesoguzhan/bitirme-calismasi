@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Meet.RoomService.WebAPI.Controllers;
 
 [ApiController]
-[Route("[controller]/[action]")]
+[Route("[controller]")]
 [Authorize]
 public class RoomController : ControllerBase
 {
@@ -22,7 +22,7 @@ public class RoomController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetRooms()
+    public async Task<IActionResult> Get()
     {
         var userIdString = User.FindFirstValue("userId");
         if (userIdString == null)

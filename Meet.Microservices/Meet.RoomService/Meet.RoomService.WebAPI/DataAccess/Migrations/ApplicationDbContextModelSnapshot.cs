@@ -28,7 +28,7 @@ namespace Meet.RoomService.WebAPI.DataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("DateTime")
+                    b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("MessageText")
@@ -110,7 +110,7 @@ namespace Meet.RoomService.WebAPI.DataAccess.Migrations
             modelBuilder.Entity("Meet.RoomService.WebAPI.Entities.Message", b =>
                 {
                     b.HasOne("Meet.RoomService.WebAPI.Entities.Room", "Room")
-                        .WithMany()
+                        .WithMany("Messages")
                         .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -139,6 +139,11 @@ namespace Meet.RoomService.WebAPI.DataAccess.Migrations
                         .HasForeignKey("UsersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Meet.RoomService.WebAPI.Entities.Room", b =>
+                {
+                    b.Navigation("Messages");
                 });
 #pragma warning restore 612, 618
         }

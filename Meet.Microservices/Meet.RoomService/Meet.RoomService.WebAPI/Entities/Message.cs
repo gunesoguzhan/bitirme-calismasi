@@ -10,7 +10,7 @@ public class Message
     [StringLength(1000)]
     public string MessageText { get; set; } = null!;
 
-    public DateTime DateTime { get; set; }
+    public DateTime Date { get; set; }
 
     public User User { get; set; } = null!;
 

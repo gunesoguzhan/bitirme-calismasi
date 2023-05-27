@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Meet.Common.Extensions;
 
-public static class CorsExtension
+public static class CorsExtensions
 {
     public static IServiceCollection AddCorsWithSettings(this IServiceCollection services)
     {

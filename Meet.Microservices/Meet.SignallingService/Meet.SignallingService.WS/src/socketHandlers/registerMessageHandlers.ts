@@ -4,8 +4,8 @@ import { Server, Socket } from 'socket.io'
 
 export const registerMessageHandlers = (io: Server, socket: Socket) => {
     const sendMessage = async (message: MessageModel) => {
-        socket.to(message.room.roomId).emit('message:received', message)
-        publishMessage('message:received', message)
+        socket.to(message.room.id).emit('message:received', message)
+        publishMessage('Meet-MessageReceived', message)
     }
 
     socket.on('message:send', sendMessage)

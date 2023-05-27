@@ -6,5 +6,5 @@ namespace Meet.RoomService.WebAPI.Common;
 public static class RoomExtension
 {
     public static RoomDto AsDto(this Room entity)
-        => new RoomDto(entity.Id);
+        => new RoomDto(entity.Id, entity.Title);
 }

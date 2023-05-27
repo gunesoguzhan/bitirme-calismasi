@@ -6,8 +6,12 @@ import { logger } from './logger'
 import { registerFriendshipHandlers } from './socketHandlers/registerFriendshipHandlers'
 import * as redis from './redisHandler'
 import { registerMessageHandlers } from './socketHandlers/registerMessageHandlers'
+import { initializeRabbitMQ } from './amqp'
 
 const io = new Server(config.socketServer as Partial<ServerOptions>)
+
+initializeRabbitMQ()
+redis.initializeRedis()
 
 io.use(authMiddleware)
 

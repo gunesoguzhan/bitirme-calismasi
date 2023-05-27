@@ -16,9 +16,13 @@ export const config = {
         securityKey: 'This is the security key for development.'
     },
     rabbitMQ: {
-        url: 'localhost:5672',
+        host: 'localhost',
+        port: 5672,
         username: 'admin',
-        password: '123456'
+        password: '123456',
+        queues: [
+            'Meet-MessageReceived'
+        ]
     },
     redis: {
         url: 'redis://localhost:6379'

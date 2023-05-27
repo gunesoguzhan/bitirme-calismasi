@@ -2,24 +2,33 @@ import amqp from 'amqplib'
 import { logger } from './logger'
 import { config } from './config'
 
-const connectToRabbitMQ = async () => {
+
+let connection: amqp.Connection
+let channel: amqp.Channel
+
+export const initializeRabbitMQ = async () => {
     try {
-        const amqpUrl = `amqp://${config.rabbitMQ.username}:${config.rabbitMQ.password}@${config.rabbitMQ.url}`
-        const connection = await amqp.connect(amqpUrl)
-        const channel = await connection.createChannel()
-        return { channel, connection }
+        const amqpUrl = `amqp://${config.rabbitMQ.username}:${config.rabbitMQ.password}@${config.rabbitMQ.host}:${config.rabbitMQ.port}`
+        connection = await amqp.connect(amqpUrl)
+        logger.debug(`AMQP: connected to ${amqpUrl}`)
+        channel = await connection.createChannel()
+        logger.debug('AMQP: channel created.')
+        config.rabbitMQ.queues.map(async queue => {
+            await channel.assertQueue(queue, { autoDelete: false, durable: true })
+            logger.debug(`AMQP: queue asserted. Queue: ${queue}`)
+        })
     } catch (error) {
-        logger.error(error)
-        return null
+        logger.error(`AMQP error: ${error}`)
     }
 }
 
-export const publishMessage = async <T>(queueName: string, message: T) => {
-    const { connection, channel } = await connectToRabbitMQ()
-    await channel.assertQueue(queueName)
-    logger.debug(`AMQP: Queue (${queueName}) asserted.`)
-    const result = channel.sendToQueue(queueName, Buffer.from(JSON.stringify(message)))
-    logger.debug(`AMQP: Message sended to ${queueName}`)
-    connection.close()
-    return result
+export const publishMessage = async <T>(queue: string, message: T) => {
+    try {
+        const result = channel.sendToQueue(queue, Buffer.from(JSON.stringify(message)))
+        logger.debug(`AMQP: Message sended to ${queue}`)
+        return result
+    } catch (error) {
+        logger.error(`AMQP error: ${error}`)
+        return false
+    }
 }

@@ -6,7 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Meet.Common.Extensions;
 
-public static class JwtExtension
+public static class JwtExtensions
 {
     public static IServiceCollection AddJwtAuthenticationWithSettings(this IServiceCollection services)
     {

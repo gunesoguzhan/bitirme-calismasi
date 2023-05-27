@@ -1,6 +1,6 @@
 export interface UserModel {
     id: string
-    firstname: string
-    lastname: string
+    firstName: string
+    lastName: string
     username: string
 }

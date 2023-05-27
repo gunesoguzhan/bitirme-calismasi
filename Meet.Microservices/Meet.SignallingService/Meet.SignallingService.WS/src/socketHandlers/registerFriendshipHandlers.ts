@@ -12,7 +12,7 @@ export const registerFriendshipHandlers = (io: Server, socket: Socket) => {
             return
         }
         socket.to(await redis.get(receiver.id)).emit('friendship:requestReceived', sender)
-        publishMessage('friendship:requestSended', { senderId: sender.id, receiverId: receiver.id })
+        publishMessage('friendshipRequestSent', { senderId: sender.id, receiverId: receiver.id })
         logger.info(`Friendship request sended. SenderId: ${sender.id} ReceiverId: ${receiver.id}`)
     }
 
@@ -23,7 +23,7 @@ export const registerFriendshipHandlers = (io: Server, socket: Socket) => {
             return
         }
         socket.to(await redis.get(sender.id)).emit('friendship:requestAccepted', accepter)
-        publishMessage('friendship:requestAccepted', { accepterId: accepter.id, senderId: sender.id })
+        publishMessage('friendshipRequestAccepted', { accepterId: accepter.id, senderId: sender.id })
         logger.info(`Friendship request accepted. SenderId: ${sender.id} AccepterId: ${accepter.id}`)
     }
 

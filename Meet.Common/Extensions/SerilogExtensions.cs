@@ -4,7 +4,7 @@ using Serilog;
 
 namespace Meet.Common.Extensions;
 
-public static class SerilogExtension
+public static class SerilogExtensions
 {
     public static ILoggingBuilder AddSerilogWithSettings(this ILoggingBuilder logging, IConfiguration configuration)
     {

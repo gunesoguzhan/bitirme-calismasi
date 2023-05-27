@@ -1,4 +1,4 @@
 export interface RoomModel {
-    roomId: string
-    roomTitle: string
+    id: string
+    title: string
 }

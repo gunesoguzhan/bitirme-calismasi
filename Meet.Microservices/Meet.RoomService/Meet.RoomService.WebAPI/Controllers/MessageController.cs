@@ -34,11 +34,13 @@ public class MessageController : ControllerBase
             var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == userId);
             if (user == null) return NotFound();
             var room = _dbContext.Rooms
-                .Include(x => x.Messages)
                 .FirstOrDefault(x => x.Id == roomId && x.Users.Contains(user));
             if (room == null) return NotFound();
-            var messages = room.Messages.Select(x => x.AsDto());
-            return Ok(messages);
+            var messages = _dbContext.Messages
+                .Where(x => x.Room.Id == room.Id)
+                .Include(x => x.User)
+                .Include(x => x.Room);
+            return Ok(messages.Select(x => x.AsDto()));
         }
         catch (Exception ex)
         {

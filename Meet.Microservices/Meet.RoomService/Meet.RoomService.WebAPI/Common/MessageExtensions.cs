@@ -6,5 +6,5 @@ namespace Meet.RoomService.WebAPI.Common;
 public static class MessageExtensions
 {
     public static MessageDto AsDto(this Message message)
-    => new(message.Id, message.MessageText, message.User.AsDto(), message.Date);
+    => new(message.Id, message.MessageText, message.User.AsDto(), message.Date, message.Room.AsDto());
 }

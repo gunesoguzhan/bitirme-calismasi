@@ -5,29 +5,28 @@ using Meet.RoomService.WebAPI.DataAccess;
 
 namespace Meet.RoomService.WebAPI.Consumers;
 
-public class MessageReceivedConsumer : IConsumer
+public class MessageReceivedConsumer : RabbitMQConsumerBase
 {
-    public string QueueName { get; set; } = "Meet-MessageReceived";
+    private readonly IServiceScopeFactory _scopeFactory;
 
-    private readonly ApplicationDbContext _dbContext;
-    private readonly ILogger<MessageReceivedConsumer> _logger;
-
-    public MessageReceivedConsumer(ApplicationDbContext dbContext, ILogger<MessageReceivedConsumer> logger)
+    public MessageReceivedConsumer(IConfiguration configuration, ILogger<MessageReceivedConsumer> logger, IServiceScopeFactory scopeFactory)
+    : base("Meet-MessageReceived", configuration, logger)
     {
-        _dbContext = dbContext;
-        _logger = logger;
+        _scopeFactory = scopeFactory;
     }
 
-    public void ConsumeMessage(string message)
+    public override void HandleMessage(string message)
     {
+        using var scope = _scopeFactory.CreateScope();
+        var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
         var @object = JsonSerializer.Deserialize<MessageReceived>(message);
         if (@object == null)
             return;
-        var user = _dbContext.Users.FirstOrDefault(x => x.Id == @object.userId);
-        var room = _dbContext.Rooms.FirstOrDefault(x => x.Id == @object.roomId);
+        var user = dbContext.Users.FirstOrDefault(x => x.Id == @object.userId);
+        var room = dbContext.Rooms.FirstOrDefault(x => x.Id == @object.roomId);
         if (user == null || room == null)
             return;
-        _dbContext.Messages.Add(
+        dbContext.Messages.Add(
         new()
         {
             MessageText = @object.messageText,
@@ -35,6 +34,6 @@ public class MessageReceivedConsumer : IConsumer
             User = user,
             Room = room
         });
-        _dbContext.SaveChanges();
+        dbContext.SaveChanges();
     }
 }

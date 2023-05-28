@@ -4,6 +4,6 @@ import { UserModel } from './userModel'
 export interface MessageModel {
     messageText: string
     sender: UserModel
-    dateTime: Date
+    date: Date
     room: RoomModel
 }

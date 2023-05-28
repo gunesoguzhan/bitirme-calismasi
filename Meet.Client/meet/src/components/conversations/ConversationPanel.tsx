@@ -1,15 +1,7 @@
-import { useEffect, useState } from 'react'
-import { ConversationItem } from './ConversationItem'
 import { ConversationModel } from '../../types/ConversationModel'
-import axiosInstance from '../../axiosInstance'
+import { ConversationItem } from './ConversationItem'
 
 export function ConversationPanel(props: ConversationPanelProps) {
-    const [conversations, setConversations] = useState<ConversationModel[]>()
-
-    useEffect(() => {
-        axiosInstance.get("/api/conversations").then(response => setConversations(response.data))
-    }, [])
-
     return (
         <div className={'flex flex-col overflow-hidden h-full pb-[10px] md:basis-[500px] bg-[#0a0c14]' + (props.isActive ? '' : ' hidden md:flex')}>
             <div className='h-[60px] text-right p-3'>
@@ -19,7 +11,7 @@ export function ConversationPanel(props: ConversationPanelProps) {
                 </button>
             </div>
             <ul className='basis-full overflow-y-auto'>
-                {conversations?.map(x => {
+                {props.conversations?.map(x => {
                     return (
                         <li key={x.id} className='mt-2'>
                             <ConversationItem href={`/messages/${x.id}`} conversation={x} />
@@ -34,4 +26,5 @@ export function ConversationPanel(props: ConversationPanelProps) {
 
 type ConversationPanelProps = {
     isActive: boolean
+    conversations?: ConversationModel[]
 }

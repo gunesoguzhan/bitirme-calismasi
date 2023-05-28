@@ -5,31 +5,28 @@ using Meet.ProfileService.WebAPI.Data;
 
 namespace Meet.ProfileService.WebAPI.Consumers;
 
-public class UserRegisteredConsumer : IConsumer
+public class UserRegisteredConsumer : RabbitMQConsumerBase
 {
-    public string QueueName { get; set; } = "Meet-UserRegistered";
+    private readonly IServiceScopeFactory _scopeFactory;
 
-    private readonly ApplicationDbContext _dbContext;
-
-    public UserRegisteredConsumer(ApplicationDbContext dbContext)
+    public UserRegisteredConsumer(IConfiguration configuration, ILogger<UserRegisteredConsumer> logger, IServiceScopeFactory scopeFactory)
+        : base("Meet-UserRegistered", configuration, logger)
     {
-        _dbContext = dbContext;
+        _scopeFactory = scopeFactory;
     }
 
-    public void ConsumeMessage(string message)
+    public override void HandleMessage(string message)
     {
+        using var scope = _scopeFactory.CreateScope();
+        var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
         var @object = JsonSerializer.Deserialize<UserRegistered>(message);
-        if (@object == null)
-            return;
-        var item = _dbContext.Profiles.FirstOrDefault(x => x.Id == @object.id);
-        if (item != null)
-            return;
-        _dbContext.Profiles.Add(new()
+        if (@object == null) return;
+        dbContext.Profiles.Add(new()
         {
             Id = @object.id,
             FirstName = @object.firstName,
             LastName = @object.lastName
         });
-        _dbContext.SaveChanges();
+        dbContext.SaveChanges();
     }
 }

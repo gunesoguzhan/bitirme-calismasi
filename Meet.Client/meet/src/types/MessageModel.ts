@@ -1,7 +1,10 @@
+import { RoomModel } from './RoomModel'
+import { UserModel } from './UserModel'
+
 export interface MessageModel {
     id: string
-    date: string
-    messageText: string
-    sender: string
-    conversationId: string
+    date: Date
+    messageText: string,
+    room: RoomModel,
+    sender: UserModel
 }

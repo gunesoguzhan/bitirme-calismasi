@@ -7,11 +7,14 @@ export function Register() {
     const navigate = useNavigate()
     const { register, handleSubmit, watch, formState: { errors } } = useForm<RegisterUserModel>()
     const onSubmit: SubmitHandler<RegisterUserModel> = data => {
-        axiosInstance.post("/api/auth/register", data).then(response => {
-            if (response.status !== 200)
-                return
-            navigate('/')
-        })
+        var abortController = new AbortController()
+        axiosInstance.post("/api/auth/register", data, { signal: abortController.signal })
+            .then(response => {
+                if (response.status !== 200)
+                    return
+                navigate('/')
+            })
+        return (() => { abortController.abort() })
     }
 
     return (

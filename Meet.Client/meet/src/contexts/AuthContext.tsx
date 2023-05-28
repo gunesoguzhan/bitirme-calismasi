@@ -4,7 +4,7 @@ import jwtDecode from 'jwt-decode'
 import { useNavigate } from 'react-router-dom'
 import { UserModel } from '../types/UserModel'
 import axiosInstance from '../axiosInstance'
-import { Loading } from '../components/Loading/Loading'
+import { Loading } from '../components/loading/Loading'
 
 export const AuthContext = createContext<AuthContextType>()
 
@@ -14,11 +14,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [loading, setLoading] = useState(true)
 
     const login = async (loginUser: LoginUserModel) => {
-        const response = await axiosInstance.post('/api/auth/login', loginUser)
+        var abortController = new AbortController()
+        const response = await axiosInstance.post('/api/auth/login', loginUser, { signal: abortController.signal })
         if (response.status !== 200) return
         localStorage.setItem('token', response.data)
         await initUser(response.data)
         navigate('/')
+        return (() => { abortController.abort() })
     }
 
     const logout = () => {
@@ -33,10 +35,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             setLoading(false)
             return
         }
-        var response = await axiosInstance.get('/api/profiles/')
+        var abortController = new AbortController()
+        var response = await axiosInstance.get('/api/profiles/', { signal: abortController.signal })
         if (response.status !== 200) return
         setUser(response.data)
         setLoading(false)
+        return (() => {
+            abortController.abort()
+        })
     }
 
     useEffect(() => {

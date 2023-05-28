@@ -35,12 +35,13 @@ public class ConversationController : ControllerBase
             if (user == null) return NotFound();
             var rooms = _dbContext.Rooms
                 .Where(x => x.Users.Contains(user))
-                .Include(x => x.Messages);
+                .Include(x => x.Messages)
+                .ThenInclude(x => x.User);
             return Ok(rooms.Select(x => x.AsConversationDto()));
         }
         catch (Exception ex)
         {
-            _logger.LogError("An exception has been caught", ex);
+            _logger.LogError("An exception has been caught {ex}", ex);
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }

@@ -1,10 +1,10 @@
 using FluentValidation;
-using Meet.Common.RabbitMQ;
 using Meet.IdentityService.WebAPI.Contracts;
 using Meet.IdentityService.WebAPI.Data;
 using Meet.IdentityService.WebAPI.Dtos;
 using Meet.IdentityService.WebAPI.Features.Hashing;
 using Meet.IdentityService.WebAPI.Features.Jwt;
+using Meet.IdentityService.WebAPI.Producers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,7 +20,7 @@ public class AuthController : ControllerBase
     private readonly ApplicationDbContext _dbContext;
     private readonly PasswordHasher _passwordHasher;
     private readonly ILogger<AuthController> _logger;
-    private readonly RabbitMQClient _rabbitMQClient;
+    private readonly UserRegisteredProducer _userRegisteredProducer;
 
     public AuthController
         (
@@ -30,7 +30,7 @@ public class AuthController : ControllerBase
             ApplicationDbContext dbContext,
             PasswordHasher passwordHasher,
             ILogger<AuthController> logger,
-            RabbitMQClient rabbitMQClient
+            UserRegisteredProducer userRegisteredProducer
         )
     {
         _loginUserDtoValidator = loginUserDtoValidator;
@@ -39,7 +39,7 @@ public class AuthController : ControllerBase
         _dbContext = dbContext;
         _passwordHasher = passwordHasher;
         _logger = logger;
-        _rabbitMQClient = rabbitMQClient;
+        _userRegisteredProducer = userRegisteredProducer;
     }
 
     [HttpPost]
@@ -121,7 +121,8 @@ public class AuthController : ControllerBase
         {
             await _dbContext.Users.AddAsync(user);
             await _dbContext.SaveChangesAsync();
-            _rabbitMQClient.PublishMessage("Meet-UserRegistered", new UserRegistered(user.Id, user.Username, registerUserDto.firstName, registerUserDto.lastName));
+            var contract = new UserRegistered(user.Id, registerUserDto.firstName, registerUserDto.lastName);
+            _userRegisteredProducer.SendMessage(contract);
             _logger.LogInformation("User created.");
             return Ok();
         }

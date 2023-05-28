@@ -16,11 +16,11 @@ export function ConversationItem(props: ConversationProps) {
             <div className="flex-1 overflow-hidden flex flex-col pl-3">
                 <div className="text-lg truncate">{props.conversation.room.title}</div>
                 <div className="text-sm text-gray-500 truncate">
-                    {props.conversation.lastMessage?.sender}: {props.conversation.lastMessage?.messageText}
+                    {`${props.conversation.lastMessage?.sender.firstName} ${props.conversation.lastMessage?.sender.firstName}`}: {props.conversation.lastMessage?.messageText}
                 </div>
             </div>
             <div className="flex flex-col justify-center text-sm text-right pr-2">
-                <div className="text-gray-500">{props.conversation.lastMessage?.date}</div>
+                <div className="text-gray-500">{new Date(props.conversation.lastMessage?.date as Date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
             </div>
         </NavLink >
     )

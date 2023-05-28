@@ -9,9 +9,8 @@ builder.Logging.AddSerilogWithSettings(builder.Configuration);
 
 // Add services to the container.
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("Mssql")), ServiceLifetime.Singleton);
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Mssql")));
 builder.Services.AddJwtAuthenticationWithSettings();
-builder.Services.AddRabbitMQ();
 builder.Services.AddRabbitMQConsumers();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -28,8 +27,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-app.UseRabbitMQConsumers();
 
 app.UseAuthentication();
 

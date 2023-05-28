@@ -18,14 +18,19 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
             token: token
         }
         socket.connect()
-        axiosInstance.get("/api/rooms").then(response => {
-            if (response.status !== 200)
-                return
-            const rooms: RoomModel[] = response.data
-            rooms.map(room => socket.emit('room:join', room.id, user))
-        })
+        var abortController = new AbortController()
+        axiosInstance.get("/api/rooms", { signal: abortController.signal })
+            .then(response => {
+                if (response.status !== 200)
+                    return
+                const rooms: RoomModel[] = response.data
+                rooms.map(room => socket.emit('room:join', room.id, user))
+            })
 
-        return () => { socket.disconnect() }
+        return () => {
+            abortController.abort()
+            socket.disconnect()
+        }
     }, [socket])
 
     return (

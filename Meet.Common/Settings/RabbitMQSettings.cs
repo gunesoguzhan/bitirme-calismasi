@@ -6,5 +6,4 @@ public class RabbitMQSettings
     public int Port { get; init; }
     public string Username { get; init; } = null!;
     public string Password { get; init; } = null!;
-    public List<string>? Queues { get; set; }
 }

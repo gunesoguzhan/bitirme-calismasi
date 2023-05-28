@@ -117,7 +117,7 @@
             ]
         },
         {
-            "DownstreamPathTemplate": "/message?roomId=:roomId",
+            "DownstreamPathTemplate": "/message?roomId={roomId}",
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
@@ -125,7 +125,7 @@
                     "Port": 5132
                 }
             ],
-            "UpstreamPathTemplate": "/api/messages?roomId=:roomId",
+            "UpstreamPathTemplate": "/api/messages?roomId={roomId}",
             "UpstreamHttpMethod": [
                 "GET"
             ]

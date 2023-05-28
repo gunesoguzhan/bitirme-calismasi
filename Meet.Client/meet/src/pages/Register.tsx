@@ -1,13 +1,15 @@
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useForm, SubmitHandler } from "react-hook-form"
 import { RegisterUserModel } from '../types/RegisterUserModel'
-import axios from 'axios'
+import axiosInstance from '../axiosInstance'
 
 export function Register() {
     const navigate = useNavigate()
     const { register, handleSubmit, watch, formState: { errors } } = useForm<RegisterUserModel>()
     const onSubmit: SubmitHandler<RegisterUserModel> = data => {
-        axios.post("http://localhost:4000/api/register", data).then(response => {
+        axiosInstance.post("/api/auth/register", data).then(response => {
+            if (response.status !== 200)
+                return
             navigate('/')
         })
     }

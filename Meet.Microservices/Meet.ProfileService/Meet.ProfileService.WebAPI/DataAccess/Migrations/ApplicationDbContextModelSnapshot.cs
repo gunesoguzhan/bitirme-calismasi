@@ -68,10 +68,6 @@ namespace Meet.ProfileService.WebAPI.DataAccess.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.Property<Guid>("UserId")
-                        .HasMaxLength(30)
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
                     b.ToTable("Profiles");

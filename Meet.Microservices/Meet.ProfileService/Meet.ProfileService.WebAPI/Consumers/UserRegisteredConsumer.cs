@@ -21,12 +21,12 @@ public class UserRegisteredConsumer : IConsumer
         var @object = JsonSerializer.Deserialize<UserRegistered>(message);
         if (@object == null)
             return;
-        var item = _dbContext.Profiles.FirstOrDefault(x => x.UserId == @object.id);
+        var item = _dbContext.Profiles.FirstOrDefault(x => x.Id == @object.id);
         if (item != null)
             return;
         _dbContext.Profiles.Add(new()
         {
-            UserId = @object.id,
+            Id = @object.id,
             FirstName = @object.firstName,
             LastName = @object.lastName
         });

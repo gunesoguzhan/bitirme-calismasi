@@ -6,5 +6,5 @@ namespace Meet.RoomService.WebAPI.Common;
 public static class UserExtension
 {
     public static UserDto AsDto(this User user)
-        => new UserDto(user.Id, user.Username, user.FirstName, user.LastName);
+        => new UserDto(user.Id, user.FirstName, user.LastName);
 }

@@ -1,15 +1,13 @@
 import { useEffect, useState } from 'react'
 import { ConversationItem } from './ConversationItem'
 import { ConversationModel } from '../../types/ConversationModel'
-import axios from 'axios'
+import axiosInstance from '../../axiosInstance'
 
 export function ConversationPanel(props: ConversationPanelProps) {
     const [conversations, setConversations] = useState<ConversationModel[]>()
 
     useEffect(() => {
-        console.log(axios.defaults.headers.common)
-        axios.defaults.headers.common.Authorization = `bearer ${localStorage.getItem('token')}`
-        axios.get("/api/conversations").then(response => setConversations(response.data))
+        axiosInstance.get("/api/conversations").then(response => setConversations(response.data))
     }, [])
 
     return (

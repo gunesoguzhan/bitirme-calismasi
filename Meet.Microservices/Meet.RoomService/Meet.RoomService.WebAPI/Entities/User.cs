@@ -8,9 +8,6 @@ public class User
     public Guid Id { get; init; }
 
     [StringLength(30)]
-    public string Username { get; set; } = null!;
-
-    [StringLength(30)]
     public string FirstName { get; set; } = null!;
 
     [StringLength(30)]

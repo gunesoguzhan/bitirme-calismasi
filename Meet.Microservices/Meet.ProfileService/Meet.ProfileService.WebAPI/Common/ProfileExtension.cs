@@ -6,5 +6,5 @@ namespace Meet.ProfileService.WebAPI.Common;
 public static class ProfileExtension
 {
     public static ProfileDto AsDto(this Profile profile) =>
-        new ProfileDto(profile.FirstName, profile.LastName, profile.FullName);
+        new ProfileDto(profile.Id, profile.FirstName, profile.LastName);
 }

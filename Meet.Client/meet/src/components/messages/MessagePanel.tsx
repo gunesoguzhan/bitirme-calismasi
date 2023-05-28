@@ -1,17 +1,16 @@
 import { useContext, useEffect, useState } from 'react'
 import { MessageItem } from './MessageItem'
-import mockMessages from '../../../mockData/messages.json'
 import { MessageModel } from '../../types/MessageModel'
 import { MainLayoutContext } from '../../contexts/MainLayoutContext'
 import { Link } from 'react-router-dom'
-import axios from 'axios'
+import axiosInstance from '../../axiosInstance'
 
 export function MessagePanel(props: MessagePanelProps) {
     const [messages, setMessages] = useState<MessageModel[]>()
     const { hideNavbar, showNavbar } = useContext(MainLayoutContext)
 
     useEffect(() => {
-        axios.get("").then(response => setMessages(response.data))
+        axiosInstance.get("").then(response => setMessages(response.data))
     }, [])
 
     useEffect(() => {

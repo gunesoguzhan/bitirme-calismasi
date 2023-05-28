@@ -11,16 +11,16 @@ export function ConversationItem(props: ConversationProps) {
                 return style
             }}>
             <div className={"bg-slate-800 flex items-center justify-center h-12 w-12 rounded-lg text-white text-xl"}>
-                {props.conversation.title.charAt(0).toLocaleUpperCase()}
+                {props.conversation.room.title.charAt(0).toLocaleUpperCase()}
             </div>
             <div className="flex-1 overflow-hidden flex flex-col pl-3">
-                <div className="text-lg truncate">{props.conversation.title}</div>
+                <div className="text-lg truncate">{props.conversation.room.title}</div>
                 <div className="text-sm text-gray-500 truncate">
-                    {props.conversation.lastMessage.sender}: {props.conversation.lastMessage.messageText}
+                    {props.conversation.lastMessage?.sender}: {props.conversation.lastMessage?.messageText}
                 </div>
             </div>
             <div className="flex flex-col justify-center text-sm text-right pr-2">
-                <div className="text-gray-500">{props.conversation.lastMessage.date}</div>
+                <div className="text-gray-500">{props.conversation.lastMessage?.date}</div>
             </div>
         </NavLink >
     )

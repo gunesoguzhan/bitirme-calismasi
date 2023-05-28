@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using Meet.RoomService.WebAPI.Common;
 using Meet.RoomService.WebAPI.DataAccess;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,6 +9,7 @@ namespace Meet.RoomService.WebAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+[Authorize]
 public class MessageController : ControllerBase
 {
     private readonly ApplicationDbContext _dbContext;
@@ -19,8 +21,8 @@ public class MessageController : ControllerBase
         _logger = logger;
     }
 
-    [HttpGet("{roomId}")]
-    public async Task<IActionResult> GetMessagesByRoomIdAsync(Guid roomId)
+    [HttpGet]
+    public async Task<IActionResult> GetMessagesByRoomIdAsync([FromQuery] Guid roomId)
     {
         var userIdString = User.FindFirstValue("userId");
         if (userIdString == null)

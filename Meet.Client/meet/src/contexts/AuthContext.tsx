@@ -1,59 +1,69 @@
-import { createContext, useMemo, useState } from 'react'
+import { createContext, useState, useEffect } from 'react'
 import { LoginUserModel } from '../types/LoginUserModel'
-import axios from 'axios'
 import jwtDecode from 'jwt-decode'
 import { useNavigate } from 'react-router-dom'
+import { UserModel } from '../types/UserModel'
+import axiosInstance from '../axiosInstance'
+import { Loading } from '../components/Loading/Loading'
 
 export const AuthContext = createContext<AuthContextType>()
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
     const navigate = useNavigate()
-    const [userId, setUserId] = useState<string | undefined>()
+    const [user, setUser] = useState<UserModel | undefined>()
+    const [loading, setLoading] = useState(true)
 
     const login = async (loginUser: LoginUserModel) => {
-        try {
-            const response = await axios.post("/api/auth/login", loginUser)
-            localStorage.setItem('token', response.data)
-            setUser(response.data)
-            navigate('/')
-        } catch (err) {
-            console.log(err)
-        }
+        const response = await axiosInstance.post('/api/auth/login', loginUser)
+        if (response.status !== 200) return
+        localStorage.setItem('token', response.data)
+        await initUser(response.data)
+        navigate('/')
     }
 
     const logout = () => {
-        setUserId(undefined)
+        setUser(undefined)
         localStorage.removeItem('token')
     }
 
-    const setUser = (token: string) => {
+    const initUser = async (token: string) => {
         const payload = jwtDecode<TokenType>(token)
         if (payload.exp < Date.now() / 1000) {
-            setUserId(undefined)
+            setUser(undefined)
+            setLoading(false)
             return
         }
-        setUserId(payload.userId)
+        var response = await axiosInstance.get('/api/profiles/')
+        if (response.status !== 200) return
+        setUser(response.data)
+        setLoading(false)
     }
 
-    useMemo(() => {
+    useEffect(() => {
         const token = localStorage.getItem('token')
         if (!token) {
-            setUserId(undefined)
+            setUser(undefined)
+            setLoading(false)
             return
         }
-        setUser(token)
+        initUser(token)
     }, [])
 
+    if (loading) {
+        return <div>Loading...</div> // Render a loading indicator while user data is being fetched
+    }
+
     return (
-        <AuthContext.Provider value={{ userId, login, logout }}>
-            {children}
-        </AuthContext.Provider>
+        loading ? <Loading /> :
+            <AuthContext.Provider value={{ user, login, logout }}>
+                {children}
+            </AuthContext.Provider>
     )
 }
 
 type AuthContextType = {
-    userId?: string
-    login: (loginUser: LoginUserModel) => Promise<boolean>
+    user?: UserModel
+    login: (loginUser: LoginUserModel) => Promise<void>
     logout: () => void
 }
 

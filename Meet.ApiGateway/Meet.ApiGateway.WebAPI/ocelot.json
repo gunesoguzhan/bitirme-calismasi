@@ -29,6 +29,20 @@
             ]
         },
         {
+            "DownstreamPathTemplate": "/profile/",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5225
+                }
+            ],
+            "UpstreamPathTemplate": "/api/profiles/",
+            "UpstreamHttpMethod": [
+                "GET"
+            ]
+        },
+        {
             "DownstreamPathTemplate": "/friendship/getFriends",
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
@@ -75,12 +89,26 @@
             ]
         },
         {
+            "DownstreamPathTemplate": "/room/",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5132
+                }
+            ],
+            "UpstreamPathTemplate": "/api/rooms/",
+            "UpstreamHttpMethod": [
+                "GET"
+            ]
+        },
+        {
             "DownstreamPathTemplate": "/conversation/",
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
                     "Host": "localhost",
-                    "Port": 5368
+                    "Port": 5132
                 }
             ],
             "UpstreamPathTemplate": "/api/conversations/",
@@ -89,15 +117,15 @@
             ]
         },
         {
-            "DownstreamPathTemplate": "/message?conversationid=:conversationId",
+            "DownstreamPathTemplate": "/message?roomId=:roomId",
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
                     "Host": "localhost",
-                    "Port": 5368
+                    "Port": 5132
                 }
             ],
-            "UpstreamPathTemplate": "/api/messages?conversationid=:conversationId",
+            "UpstreamPathTemplate": "/api/messages?roomId=:roomId",
             "UpstreamHttpMethod": [
                 "GET"
             ]

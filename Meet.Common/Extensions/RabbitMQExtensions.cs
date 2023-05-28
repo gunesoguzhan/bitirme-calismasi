@@ -18,7 +18,7 @@ public static class RabbitMQExtensions
         ArgumentNullException.ThrowIfNull(logger);
         var rabbitMQSettings = configuration.GetSection(nameof(RabbitMQSettings)).Get<RabbitMQSettings>();
         ArgumentNullException.ThrowIfNull(rabbitMQSettings);
-        services.AddScoped<RabbitMQClient>(provider => new RabbitMQClient(rabbitMQSettings, logger));
+        services.AddSingleton<RabbitMQClient>(provider => new RabbitMQClient(rabbitMQSettings, logger));
         return services;
     }
 

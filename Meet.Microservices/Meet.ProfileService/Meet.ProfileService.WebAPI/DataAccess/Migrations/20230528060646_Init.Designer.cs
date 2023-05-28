@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Meet.ProfileService.WebAPI.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230520200008_Init")]
+    [Migration("20230528060646_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -70,10 +70,6 @@ namespace Meet.ProfileService.WebAPI.DataAccess.Migrations
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
-
-                    b.Property<Guid>("UserId")
-                        .HasMaxLength(30)
-                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 

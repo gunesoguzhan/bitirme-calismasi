@@ -1,8 +1,9 @@
 import { MessageModel } from './MessageModel'
+import { RoomModel } from './RoomModel'
 
 export interface ConversationModel {
     id: string
     type: string
-    title: string
-    lastMessage: MessageModel
+    room: RoomModel
+    lastMessage?: MessageModel
 }

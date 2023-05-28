@@ -9,5 +9,5 @@ public static class RoomExtensions
         => new RoomDto(entity.Id, entity.Title);
 
     public static ConversationDto AsConversationDto(this Room room)
-        => new ConversationDto(room.Id, room.Messages.LastOrDefault().AsDto(), room.AsDto());
+        => new ConversationDto(room.Id, room.Messages.LastOrDefault()?.AsDto(), room.AsDto());
 }

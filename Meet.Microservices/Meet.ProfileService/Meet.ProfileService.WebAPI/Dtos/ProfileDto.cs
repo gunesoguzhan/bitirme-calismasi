@@ -1,3 +1,3 @@
 namespace Meet.ProfileService.WebAPI.Dtos;
 
-public record ProfileDto(string firstName, string lastName, string fullName);
+public record ProfileDto(Guid id, string firstName, string lastName);

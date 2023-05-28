@@ -323,7 +323,7 @@ public class FriendshipController : ControllerBase
         }
         var user = await _dbContext.Profiles
             .Include(x => x.Friends)
-            .FirstOrDefaultAsync(x => x.UserId == userId);
+            .FirstOrDefaultAsync(x => x.Id == userId);
         if (user == null)
         {
             _logger.LogInformation("User is not found.");
@@ -353,7 +353,7 @@ public class FriendshipController : ControllerBase
         }
         var user = await _dbContext.Profiles
             .Include(x => x.SentFriendshipRequests)
-            .FirstOrDefaultAsync(x => x.UserId == userId);
+            .FirstOrDefaultAsync(x => x.Id == userId);
         if (user == null)
         {
             _logger.LogInformation("User is not found.");
@@ -384,7 +384,7 @@ public class FriendshipController : ControllerBase
         }
         var user = await _dbContext.Profiles
             .Include(x => x.ReceivedFriendshipRequests)
-            .FirstOrDefaultAsync(x => x.UserId == userId);
+            .FirstOrDefaultAsync(x => x.Id == userId);
         if (user == null)
         {
             _logger.LogInformation("User is not found.");

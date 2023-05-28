@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using Meet.RoomService.WebAPI.Common;
 using Meet.RoomService.WebAPI.DataAccess;
+using Microsoft.AspNetCore.Authorization;
 using Meet.RoomService.WebAPI.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ namespace Meet.RoomService.WebAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+[Authorize]
 public class ConversationController : ControllerBase
 {
     private readonly ApplicationDbContext _dbContext;

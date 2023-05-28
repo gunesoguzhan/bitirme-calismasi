@@ -1,3 +1,3 @@
 namespace Meet.RoomService.WebAPI.Dtos;
 
-public record UserDto(Guid id, string username, string firstName, string lastName);
+public record UserDto(Guid id, string firstName, string lastName);

@@ -13,11 +13,6 @@ public class Profile
     [StringLength(30)]
     public string LastName { get; set; } = null!;
 
-    public string FullName => $"{FirstName} {LastName}";
-
-    [StringLength(30)]
-    public Guid UserId { get; set; }
-
     public List<Profile> Friends { get; set; } = null!;
 
     public List<Profile> SentFriendshipRequests { get; set; } = null!;

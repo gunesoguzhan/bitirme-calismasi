@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Meet.RoomService.WebAPI.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230527192032_Init")]
+    [Migration("20230528064854_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -81,11 +81,6 @@ namespace Meet.RoomService.WebAPI.DataAccess.Migrations
                         .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
-                    b.Property<string>("Username")
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");

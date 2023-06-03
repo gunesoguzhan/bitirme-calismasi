@@ -52,6 +52,73 @@ services:
     volumes:
       - seq-logs:/data
 
+  # identity microservice
+  meet-identity-service:
+    build:
+      context: .
+      dockerfile: /Meet.Microservices/Meet.IdentityService/Meet.IdentityService.WebAPI/Dockerfile
+    container_name: meet-identity-service
+    restart: unless-stopped
+    ports:
+      - 5181:80
+    depends_on:
+      - rabbitmq
+      - mssql
+      - seq
+
+  # profile microservice
+  meet-profile-service:
+    build:
+      context: .
+      dockerfile: /Meet.Microservices/Meet.ProfileService/Meet.ProfileService.WebAPI/Dockerfile
+    container_name: meet-profile-service
+    restart: unless-stopped
+    ports:
+      - 5225:80
+    depends_on:
+      - rabbitmq
+      - mssql
+      - seq
+
+  # room microservice
+  meet-room-service:
+    build:
+      context: .
+      dockerfile: /Meet.Microservices/Meet.RoomService/Meet.RoomService.WebAPI/Dockerfile
+    container_name: meet-room-service
+    restart: unless-stopped
+    ports:
+      - 5132:80
+    depends_on:
+      - rabbitmq
+      - mssql
+      - seq
+
+  # api gateway
+  meet-api-gateway:
+    build:
+      context: .
+      dockerfile: /Meet.Microservices/Meet.ApiGateway/Meet.ApiGateway.WebAPI/Dockerfile
+    container_name: meet-api-gateway
+    restart: unless-stopped
+    ports:
+      - 4000:80
+    depends_on:
+      - meet-identity-service
+      - meet-profile-service
+      - meet-room-service
+
+  # signalling service
+  meet-signalling-service:
+    build:
+      context: ./Meet.Microservices/Meet.SignallingService/Meet.SignallingService.WS/
+    container_name: meet-signalling-service
+    restart: unless-stopped
+    ports:
+      - 3000:80
+    depends_on:
+      - redis
+
 volumes:
   rabbitmq:
   seq-logs:

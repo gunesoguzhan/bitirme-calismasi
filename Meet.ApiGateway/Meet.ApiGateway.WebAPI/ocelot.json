@@ -40,7 +40,11 @@
             "UpstreamPathTemplate": "/api/profiles/",
             "UpstreamHttpMethod": [
                 "GET"
-            ]
+            ],
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "jsonwebtoken",
+                "AllowedScopes": []
+            }
         },
         {
             "DownstreamPathTemplate": "/friendship/getFriends",
@@ -72,7 +76,11 @@
             "UpstreamPathTemplate": "/api/friendship/getSentFriendshipRequests",
             "UpstreamHttpMethod": [
                 "GET"
-            ]
+            ],
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "jsonwebtoken",
+                "AllowedScopes": []
+            }
         },
         {
             "DownstreamPathTemplate": "/friendship/getReceivedFriendshipRequests",
@@ -86,7 +94,11 @@
             "UpstreamPathTemplate": "/api/friendship/getReceivedFriendshipRequests",
             "UpstreamHttpMethod": [
                 "GET"
-            ]
+            ],
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "jsonwebtoken",
+                "AllowedScopes": []
+            }
         },
         {
             "DownstreamPathTemplate": "/room/",
@@ -100,7 +112,11 @@
             "UpstreamPathTemplate": "/api/rooms/",
             "UpstreamHttpMethod": [
                 "GET"
-            ]
+            ],
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "jsonwebtoken",
+                "AllowedScopes": []
+            }
         },
         {
             "DownstreamPathTemplate": "/conversation/",
@@ -114,7 +130,11 @@
             "UpstreamPathTemplate": "/api/conversations/",
             "UpstreamHttpMethod": [
                 "GET"
-            ]
+            ],
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "jsonwebtoken",
+                "AllowedScopes": []
+            }
         },
         {
             "DownstreamPathTemplate": "/message?roomId={roomId}",
@@ -128,7 +148,11 @@
             "UpstreamPathTemplate": "/api/messages?roomId={roomId}",
             "UpstreamHttpMethod": [
                 "GET"
-            ]
+            ],
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "jsonwebtoken",
+                "AllowedScopes": []
+            }
         }
     ],
     "GlobalConfiguration": {

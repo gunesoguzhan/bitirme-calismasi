@@ -11,12 +11,12 @@ export const config = {
         }
     },
     jwt: {
-        audience: 'docker',
-        issuer: 'docker',
-        securityKey: 'This is the security key for production.'
+        audience: 'localhost',
+        issuer: 'localhost',
+        securityKey: 'This is the security key for development.'
     },
     rabbitMQ: {
-        host: 'rabbitmq',
+        host: 'localhost',
         port: 5672,
         username: 'admin',
         password: '123456',
@@ -25,10 +25,10 @@ export const config = {
         ]
     },
     redis: {
-        url: 'redis://redis:6379'
+        url: 'redis://localhost:6379'
     },
     winston: {
         level: 'debug',
-        label: 'Meet.SignallingService.WS.Production'
+        label: 'Meet.SignallingService.WS.Development'
     }
 }

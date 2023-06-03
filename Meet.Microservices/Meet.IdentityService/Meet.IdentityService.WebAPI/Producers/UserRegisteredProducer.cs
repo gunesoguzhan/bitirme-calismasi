@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Meet.Common.RabbitMQ;
 
 namespace Meet.IdentityService.WebAPI.Producers;
 

@@ -4,6 +4,8 @@ using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using System.Text;
 
+namespace Meet.Common.RabbitMQ;
+
 public abstract class RabbitMQProducerBase
 {
     private readonly IConnection connection;

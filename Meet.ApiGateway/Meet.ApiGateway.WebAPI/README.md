@@ -11,12 +11,10 @@
 
 ### Docker build
 - Note: To build with referenced project, go to parent directory.
-- `docker build -t meet-identity-service -f .\Meet.Microservices\Meet.IdentityService\Meet.IdentityService.WebAPI\Dockerfile .`
+- `docker build -t meet-api-gateway -f .\Meet.ApiGateway\Meet.ApiGateway.WebAPI\Dockerfile .`
 
 ### Docker run
-- `docker run -p 5181:80 --network bitirme-calismasi_default --name identit meet-identity-service`
+- `docker run -p 4000:80 --network bitirme-calismasi_default --name api-gateway meet-api-gateway`
 
 ## Todo
-- User entity modifications (refresh token)
-- Clear responses for bad http requests
 - Cors

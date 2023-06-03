@@ -4,6 +4,8 @@ using Ocelot.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Logging.AddSerilogWithSettings(builder.Configuration);
+
 builder.Services.AddJwtAuthenticationWithSettings().AddCorsWithSettings();
 
 builder.Configuration.SetBasePath(builder.Environment.ContentRootPath)

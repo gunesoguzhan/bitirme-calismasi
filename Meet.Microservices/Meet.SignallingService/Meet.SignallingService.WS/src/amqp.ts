@@ -1,6 +1,6 @@
 import amqp from 'amqplib'
 import { logger } from './logger'
-import { config } from './config'
+import { config } from './configuration/config'
 
 
 let connection: amqp.Connection

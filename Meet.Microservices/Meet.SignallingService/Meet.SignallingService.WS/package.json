@@ -11,6 +11,7 @@
   "author": "gunesoguzhan gunesoguzhan@outlook.com.tr",
   "license": "ISC",
   "dependencies": {
+    "@datalust/winston-seq": "^2.0.0",
     "amqplib": "^0.10.3",
     "jsonwebtoken": "^9.0.0",
     "redis": "^4.6.6",

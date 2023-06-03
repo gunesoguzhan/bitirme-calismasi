@@ -1,5 +1,5 @@
 import { Server, ServerOptions } from 'socket.io'
-import { config } from './config'
+import { config } from './configuration/config'
 import { authMiddleware } from './middlewares/authMiddleware'
 import { registerRoomHandlers } from './socketHandlers/registerRoomHandlers'
 import { logger } from './logger'

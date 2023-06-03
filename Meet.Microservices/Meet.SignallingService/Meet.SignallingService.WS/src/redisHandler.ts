@@ -1,4 +1,4 @@
-import { config } from './config'
+import { config } from './configuration/config'
 import { logger } from './logger'
 import * as redis from 'redis'
 

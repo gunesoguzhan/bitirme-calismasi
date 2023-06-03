@@ -1,7 +1,7 @@
 import * as jwt from 'jsonwebtoken'
 import { Socket } from 'socket.io'
 import { logger } from '../logger'
-import { config } from '../config'
+import { config } from '../configuration/config'
 
 export const authMiddleware = (socket: Socket, next: (err?: Error) => void) => {
     const token = socket.handshake.auth.token as string

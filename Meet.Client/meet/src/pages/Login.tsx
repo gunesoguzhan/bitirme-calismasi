@@ -6,10 +6,10 @@ import { AuthContext } from '../contexts/AuthContext'
 
 export function Login() {
 
-    const { login } = useContext(AuthContext)
+    const authContext = useContext(AuthContext)
     const { register, handleSubmit, formState: { errors } } = useForm<LoginUserModel>()
     const onSubmit: SubmitHandler<LoginUserModel> = async (data) => {
-        await login(data)
+        await authContext?.login(data)
     }
 
     return (

@@ -6,7 +6,7 @@ import { UserModel } from '../types/UserModel'
 import axiosInstance from '../axiosInstance'
 import { Loading } from '../components/loading/Loading'
 
-export const AuthContext = createContext<AuthContextType>()
+export const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
     const navigate = useNavigate()
@@ -20,7 +20,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         localStorage.setItem('token', response.data)
         await initUser(response.data)
         navigate('/')
-        return (() => { abortController.abort() })
+        abortController.abort()
     }
 
     const logout = () => {

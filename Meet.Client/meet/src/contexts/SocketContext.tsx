@@ -10,7 +10,7 @@ export const SocketContext = createContext<null | Socket>(null)
 
 export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     const [socket] = useState(io(URL, { autoConnect: false }))
-    const { user } = useContext(AuthContext)
+    const authContext = useContext(AuthContext)
 
     useEffect(() => {
         const token = localStorage.getItem('token')
@@ -24,7 +24,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
                 if (response.status !== 200)
                     return
                 const rooms: RoomModel[] = response.data
-                rooms.map(room => socket.emit('room:join', room.id, user))
+                rooms.map(room => socket.emit('room:join', room.id, authContext?.user))
             })
 
         return () => {

@@ -1,7 +1,7 @@
-FROM node
+FROM node:20
 WORKDIR /app
-COPY package.json .
+COPY package*.json .
 RUN npm i
 COPY . .
-EXPOSE 5173 
+RUN npm run build
 CMD ["npm", "run", "dev"]

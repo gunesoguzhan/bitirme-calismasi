@@ -101,9 +101,11 @@ export function Register() {
                                 required: {
                                     value: true,
                                     message: 'Required'
-                                }, validate: (val: string) => {
-                                    if (watch('password') != val)
+                                }, validate: (val: string | undefined) => {
+                                    if (val && watch('password') !== val) {
                                         return "Passwords do not match."
+                                    }
+                                    return undefined
                                 }
                             })} />
                         <p className='text-sm text-red-600 h-6'>{errors.confirmPassword?.message}</p>

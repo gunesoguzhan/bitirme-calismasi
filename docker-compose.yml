@@ -3,15 +3,15 @@ version: "3.8"
 services:
   # mssql for microservices
   # docker run --name mssql --restart unsless-stopped -e ACCEPT_EULA=Y -e MSSQL_SA_PASSWORD=Qwer1234! -p 1433:1433 mcr.microsoft.com/mssql/server:2022-latest
-  # mssql:
-  #   image: mcr.microsoft.com/mssql/server:2022-latest
-  #   container_name: mssql
-  #   restart: unless-stopped
-  #   environment:
-  #     - ACCEPT_EULA=Y
-  #     - MSSQL_SA_PASSWORD=Qwer1234!
-  #   ports:
-  #     - 1433:1433
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: mssql
+    restart: unless-stopped
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Qwer1234!
+    ports:
+      - 1433:1433
 
   # rabbitmq for async microservice communication
   # docker run --name rabbitmq --restart unless-stopped -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DEFAULT_PASS=123456  -p 5672:5672 -p 15672:15672 -v rabbitmq:/var/lib/rabbitmq --hostname rabbitmq rabbitmq:3-management
@@ -53,71 +53,91 @@ services:
       - seq-logs:/data
 
   # identity microservice
-  # meet-identity-service:
-  #   build:
-  #     context: .
-  #     dockerfile: /Meet.Microservices/Meet.IdentityService/Meet.IdentityService.WebAPI/Dockerfile
-  #   container_name: meet-identity-service
-  #   restart: unless-stopped
-  #   ports:
-  #     - 5181:80
-  #   depends_on:
-  #     - rabbitmq
-  #     - mssql
-  #     - seq
+  meet-identity-service:
+    build:
+      context: .
+      dockerfile: /Meet.Microservices/Meet.IdentityService/Meet.IdentityService.WebAPI/Dockerfile
+    container_name: meet-identity-service
+    restart: unless-stopped
+    ports:
+      - 5181:80
+    depends_on:
+      - rabbitmq
+      - mssql
+      - seq
 
   # profile microservice
-  # meet-profile-service:
-  #   build:
-  #     context: .
-  #     dockerfile: /Meet.Microservices/Meet.ProfileService/Meet.ProfileService.WebAPI/Dockerfile
-  #   container_name: meet-profile-service
-  #   restart: unless-stopped
-  #   ports:
-  #     - 5225:80
-  #   depends_on:
-  #     - rabbitmq
-  #     - mssql
-  #     - seq
+  meet-profile-service:
+    build:
+      context: .
+      dockerfile: /Meet.Microservices/Meet.ProfileService/Meet.ProfileService.WebAPI/Dockerfile
+    container_name: meet-profile-service
+    restart: unless-stopped
+    ports:
+      - 5225:80
+    depends_on:
+      - rabbitmq
+      - mssql
+      - seq
 
   # room microservice
-  # meet-room-service:
-  #   build:
-  #     context: .
-  #     dockerfile: /Meet.Microservices/Meet.RoomService/Meet.RoomService.WebAPI/Dockerfile
-  #   container_name: meet-room-service
-  #   restart: unless-stopped
-  #   ports:
-  #     - 5132:80
-  #   depends_on:
-  #     - rabbitmq
-  #     - mssql
-  #     - seq
+  meet-room-service:
+    build:
+      context: .
+      dockerfile: /Meet.Microservices/Meet.RoomService/Meet.RoomService.WebAPI/Dockerfile
+    container_name: meet-room-service
+    restart: unless-stopped
+    ports:
+      - 5132:80
+    depends_on:
+      - rabbitmq
+      - mssql
+      - seq
 
   # api gateway
-  # meet-api-gateway:
-  #   build:
-  #     context: .
-  #     dockerfile: /Meet.ApiGateway/Meet.ApiGateway.WebAPI/Dockerfile
-  #   container_name: meet-api-gateway
-  #   restart: unless-stopped
-  #   ports:
-  #     - 4000:80
-  #   depends_on:
-  #     - meet-identity-service
-  #     - meet-profile-service
-  #     - meet-room-service
+  meet-api-gateway:
+    build:
+      context: .
+      dockerfile: /Meet.ApiGateway/Meet.ApiGateway.WebAPI/Dockerfile
+    container_name: meet-api-gateway
+    restart: unless-stopped
+    ports:
+      - 4000:80
+    depends_on:
+      - meet-identity-service
+      - meet-profile-service
+      - meet-room-service
 
   # signalling service
-  # meet-signalling-service:
-  #   build:
-  #     context: ./Meet.Microservices/Meet.SignallingService/Meet.SignallingService.WS/
-  #   container_name: meet-signalling-service
-  #   restart: unless-stopped
-  #   ports:
-  #     - 3000:80
-  #   depends_on:
-  #     - redis
+  meet-signalling-service:
+    build:
+      context: ./Meet.Microservices/Meet.SignallingService/Meet.SignallingService.WS/
+    container_name: meet-signalling-service
+    restart: unless-stopped
+    ports:
+      - 3258:80
+    depends_on:
+      - redis
+
+  # reverse proxy
+  meet-reverse-proxy:
+    build:
+      context: /Meet.ReverseProxy/Meet.ReverseProxy.WS/
+    container_name: meet-reverse-proxy
+    restart: unless-stopped
+    ports:
+      - 3000:80
+    depends_on:
+      - meet-signalling-service
+
+  # client
+  meet-client:
+    build:
+      context: /Meet.Client/meet/
+    container_name: meet-client
+    restart: unless-stopped
+    ports:
+      - 5173:5173
 
 volumes:
   rabbitmq:

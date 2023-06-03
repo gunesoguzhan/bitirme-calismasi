@@ -12,7 +12,7 @@ import { SocketContext } from '../../contexts/SocketContext'
 export function MessagePanel(props: MessagePanelProps) {
     const [messages, setMessages] = useState<MessageModel[]>([])
     const { hideNavbar, showNavbar } = useContext(MainLayoutContext)
-    const { user } = useContext(AuthContext)
+    const authContext = useContext(AuthContext)
     const socket = useContext(SocketContext)
 
     useEffect(() => {
@@ -33,7 +33,7 @@ export function MessagePanel(props: MessagePanelProps) {
     const { register, handleSubmit, reset } = useForm<MessageModel>()
     const onSubmit: SubmitHandler<MessageModel> = async (data) => {
         data.date = new Date()
-        data.sender = user as UserModel
+        data.sender = authContext?.user as UserModel
         data.room = { id: props.conversationId as string, title: props.conversationTitle as string }
         setMessages([...messages, data])
         socket?.emit('message:send', data)

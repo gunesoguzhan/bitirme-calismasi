@@ -115,7 +115,7 @@ services:
     container_name: meet-signalling-service
     restart: unless-stopped
     ports:
-      - 3258:80
+      - 3258:3258
     depends_on:
       - redis
 
@@ -126,7 +126,7 @@ services:
     container_name: meet-reverse-proxy
     restart: unless-stopped
     ports:
-      - 3000:80
+      - 3000:3000
     depends_on:
       - meet-signalling-service
 

@@ -5,6 +5,7 @@ import { config } from '../configuration/config'
 
 export const authMiddleware = (socket: Socket, next: (err?: Error) => void) => {
     const token = socket.handshake.auth.token as string
+    // const token = socket.handshake.query?.token as string
     if (!token) {
         logger.error('Jwt token is null.')
         next(new Error('Authentication error'))

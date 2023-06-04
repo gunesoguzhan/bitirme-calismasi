@@ -5,8 +5,8 @@
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "meet-identity-service",
-                    "Port": 80
+                    "Host": "localhost",
+                    "Port": 5181
                 }
             ],
             "UpstreamPathTemplate": "/api/auth/login",
@@ -19,8 +19,8 @@
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "meet-identity-service",
-                    "Port": 80
+                    "Host": "localhost",
+                    "Port": 5181
                 }
             ],
             "UpstreamPathTemplate": "/api/auth/register",
@@ -33,8 +33,8 @@
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "meet-profile-service",
-                    "Port": 80
+                    "Host": "localhost",
+                    "Port": 5225
                 }
             ],
             "UpstreamPathTemplate": "/api/profiles/",
@@ -51,8 +51,8 @@
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "meet-profile-service",
-                    "Port": 80
+                    "Host": "localhost",
+                    "Port": 5225
                 }
             ],
             "UpstreamPathTemplate": "/api/friendship/getFriends",
@@ -69,8 +69,8 @@
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "meet-profile-service",
-                    "Port": 80
+                    "Host": "localhost",
+                    "Port": 5225
                 }
             ],
             "UpstreamPathTemplate": "/api/friendship/getSentFriendshipRequests",
@@ -87,8 +87,8 @@
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "meet-profile-service",
-                    "Port": 80
+                    "Host": "localhost",
+                    "Port": 5225
                 }
             ],
             "UpstreamPathTemplate": "/api/friendship/getReceivedFriendshipRequests",
@@ -105,8 +105,8 @@
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "meet-room-service",
-                    "Port": 80
+                    "Host": "localhost",
+                    "Port": 5132
                 }
             ],
             "UpstreamPathTemplate": "/api/rooms/",
@@ -123,8 +123,8 @@
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "meet-room-service",
-                    "Port": 80
+                    "Host": "localhost",
+                    "Port": 5132
                 }
             ],
             "UpstreamPathTemplate": "/api/conversations/",
@@ -141,8 +141,8 @@
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "meet-room-service",
-                    "Port": 80
+                    "Host": "localhost",
+                    "Port": 5132
                 }
             ],
             "UpstreamPathTemplate": "/api/messages?roomId={roomId}",
@@ -156,6 +156,6 @@
         }
     ],
     "GlobalConfiguration": {
-        "BaseUrl": "meet-api-gateway:80"
+        "BaseUrl": "localhost:4000"
     }
 }

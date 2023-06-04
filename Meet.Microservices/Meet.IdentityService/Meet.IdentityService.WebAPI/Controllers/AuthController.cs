@@ -50,7 +50,7 @@ public class AuthController : ControllerBase
         if (!validationResult.IsValid)
         {
             _logger.LogInformation($"Model is not valid.");
-            return BadRequest();
+            return BadRequest(validationResult.Errors.Select(x => x.ErrorMessage));
         }
 
         // Return token. If there is an exception return 500.
@@ -66,7 +66,7 @@ public class AuthController : ControllerBase
                 _logger.LogInformation("User not found or the password is incorrect.");
                 return NotFound();
             }
-            return Content(_jwtTokenHandler.GenerateToken(user, TimeSpan.FromMinutes(20)));
+            return Content(_jwtTokenHandler.GenerateToken(user, TimeSpan.FromHours(4)));
         }
         catch (Exception ex)
         {
@@ -83,7 +83,7 @@ public class AuthController : ControllerBase
         if (!validationResult.IsValid)
         {
             _logger.LogInformation($"Model is not valid.");
-            return BadRequest();
+            return BadRequest(validationResult.Errors.Select(x => x.ErrorMessage));
         }
 
         // Check if user is already created. If it is already created return 400.

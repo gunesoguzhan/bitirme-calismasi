@@ -5,7 +5,7 @@ const axiosInstance = axios.create()
 
 
 axiosInstance.defaults.baseURL = process.env.NODE_ENV === 'production'
-    ? "http://172.22.0.12:80"
+    ? "http://meet-api-gateway:80"
     : "http://localhost:4000"
 
 axiosInstance.interceptors.request.use(

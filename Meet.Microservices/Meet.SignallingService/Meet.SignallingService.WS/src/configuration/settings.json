@@ -21,7 +21,12 @@
         "username": "admin",
         "password": "123456",
         "queues": [
-            "Meet-MessageReceived"
+            "Meet-MessageReceived",
+            "Meet-FriendshipRequestSent",
+            "Meet-FriendshipRequestAccepted",
+            "Meet-FriendshipRequestRejected",
+            "Meet-FriendshipRequestCancelled",
+            "Meet-FriendshipRemoved"
         ]
     },
     "redis": {

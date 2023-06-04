@@ -1,4 +1,3 @@
-using Meet.Common.RabbitMQ;
 using Meet.RoomService.WebAPI.Consumers;
 
 namespace Meet.RoomService.WebAPI.Common;

@@ -101,6 +101,24 @@
             }
         },
         {
+            "DownstreamPathTemplate": "/friendship/search?searchString={searchString}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5225
+                }
+            ],
+            "UpstreamPathTemplate": "/api/friendship/search?searchString={searchString}",
+            "UpstreamHttpMethod": [
+                "GET"
+            ],
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "jsonwebtoken",
+                "AllowedScopes": []
+            }
+        },
+        {
             "DownstreamPathTemplate": "/room/",
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
@@ -112,6 +130,24 @@
             "UpstreamPathTemplate": "/api/rooms/",
             "UpstreamHttpMethod": [
                 "GET"
+            ],
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "jsonwebtoken",
+                "AllowedScopes": []
+            }
+        },
+        {
+            "DownstreamPathTemplate": "/room/findOrCreatePeerRoom",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5132
+                }
+            ],
+            "UpstreamPathTemplate": "/api/rooms/findOrCreatePeerRoom",
+            "UpstreamHttpMethod": [
+                "POST"
             ],
             "AuthenticationOptions": {
                 "AuthenticationProviderKey": "jsonwebtoken",

@@ -11,10 +11,8 @@ export function Messages() {
   const [conversations, setConversations] = useState<ConversationModel[]>()
 
   useEffect(() => {
-    var abortController = new AbortController()
-    axiosInstance.get("/api/conversations", { signal: abortController.signal })
+    axiosInstance.get("/api/conversations")
       .then(response => setConversations(response.data))
-    return (() => { abortController.abort })
   }, [])
 
   return (

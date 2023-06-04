@@ -9,8 +9,8 @@ builder.Logging.AddSerilogWithSettings(builder.Configuration);
 builder.Services.AddJwtAuthenticationWithSettings().AddCorsWithSettings();
 
 builder.Configuration.SetBasePath(builder.Environment.ContentRootPath)
-    .AddJsonFile($"ocelot.{builder.Environment.EnvironmentName}.json", true, true)
-    .AddJsonFile("ocelot.json", false, true)
+    .AddJsonFile($"ocelot.{builder.Environment.EnvironmentName}.json", false, true)
+    // .AddJsonFile("ocelot.json", false, true)
     .AddEnvironmentVariables();
 
 builder.Services.AddOcelot(builder.Configuration);

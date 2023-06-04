@@ -16,14 +16,9 @@ export function MessagePanel(props: MessagePanelProps) {
     const socket = useContext(SocketContext)
 
     useEffect(() => {
-        var abortController = new AbortController()
-        axiosInstance.get(`/api/messages?roomId=${props.conversationId}`, { signal: abortController.signal })
+        axiosInstance.get(`/api/messages?roomId=${props.conversationId}`)
             .then(response => setMessages(response.data))
-
-        return (() => {
-            abortController.abort()
-        })
-    }, [])
+    }, [props.conversationId])
 
     useEffect(() => {
         hideNavbar()

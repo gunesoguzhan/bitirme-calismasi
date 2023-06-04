@@ -13,5 +13,5 @@ public class User
     [StringLength(30)]
     public string LastName { get; set; } = null!;
 
-    public List<Room> Rooms { get; set; } = null!;
+    public List<Room>? Rooms { get; set; }
 }

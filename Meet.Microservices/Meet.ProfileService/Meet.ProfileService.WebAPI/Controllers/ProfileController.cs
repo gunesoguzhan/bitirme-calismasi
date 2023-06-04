@@ -31,7 +31,12 @@ public class ProfileController : ControllerBase
         {
             var userId = Guid.Parse(userIdString);
             var profile = await _dbContext.Profiles.FirstOrDefaultAsync(x => x.Id == userId);
-            if (profile == null) return NotFound();
+            if (profile == null)
+            {
+                _logger.LogInformation("User not found. UserId: {userId}", userId);
+                return NotFound();
+            }
+            _logger.LogInformation("User found. UserId: {userId}", userId);
             return Ok(profile.AsDto());
         }
         catch (Exception ex)

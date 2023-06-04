@@ -14,13 +14,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [loading, setLoading] = useState(true)
 
     const login = async (loginUser: LoginUserModel) => {
-        var abortController = new AbortController()
-        const response = await axiosInstance.post('/api/auth/login', loginUser, { signal: abortController.signal })
+        const response = await axiosInstance.post('/api/auth/login', loginUser)
         if (response.status !== 200) return
         localStorage.setItem('token', response.data)
         await initUser(response.data)
         navigate('/')
-        abortController.abort()
     }
 
     const logout = () => {
@@ -35,14 +33,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             setLoading(false)
             return
         }
-        var abortController = new AbortController()
-        var response = await axiosInstance.get('/api/profiles/', { signal: abortController.signal })
+        var response = await axiosInstance.get('/api/profiles/')
         if (response.status !== 200) return
         setUser(response.data)
         setLoading(false)
-        return (() => {
-            abortController.abort()
-        })
     }
 
     useEffect(() => {

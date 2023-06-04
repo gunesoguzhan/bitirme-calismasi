@@ -13,9 +13,9 @@ public class Profile
     [StringLength(30)]
     public string LastName { get; set; } = null!;
 
-    public List<Profile> Friends { get; set; } = null!;
+    public List<Profile> Friends { get; set; } = new();
 
-    public List<Profile> SentFriendshipRequests { get; set; } = null!;
+    public List<Profile> SentFriendshipRequests { get; set; } = new();
 
-    public List<Profile> ReceivedFriendshipRequests { get; set; } = null!;
+    public List<Profile> ReceivedFriendshipRequests { get; set; } = new();
 }

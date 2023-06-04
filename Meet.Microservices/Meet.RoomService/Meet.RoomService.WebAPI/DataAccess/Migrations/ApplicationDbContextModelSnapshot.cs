@@ -48,7 +48,7 @@ namespace Meet.RoomService.WebAPI.DataAccess.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Messages");
+                    b.ToTable("Messages", (string)null);
                 });
 
             modelBuilder.Entity("Meet.RoomService.WebAPI.Entities.Room", b =>
@@ -63,7 +63,7 @@ namespace Meet.RoomService.WebAPI.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Rooms");
+                    b.ToTable("Rooms", (string)null);
                 });
 
             modelBuilder.Entity("Meet.RoomService.WebAPI.Entities.User", b =>
@@ -84,7 +84,7 @@ namespace Meet.RoomService.WebAPI.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("RoomUser", b =>
@@ -99,7 +99,7 @@ namespace Meet.RoomService.WebAPI.DataAccess.Migrations
 
                     b.HasIndex("UsersId");
 
-                    b.ToTable("RoomUser");
+                    b.ToTable("RoomUser", (string)null);
                 });
 
             modelBuilder.Entity("Meet.RoomService.WebAPI.Entities.Message", b =>

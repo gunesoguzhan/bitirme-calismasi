@@ -32,11 +32,21 @@ public class ConversationController : ControllerBase
         {
             var userId = Guid.Parse(userIdString);
             var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == userId);
-            if (user == null) return NotFound();
-            var rooms = _dbContext.Rooms
-                .Where(x => x.Users.Contains(user))
+            if (user == null)
+            {
+                _logger.LogWarning("User not found. UserId: {userId}", userId);
+                return NotFound();
+            }
+            var rooms = _dbContext.Rooms?
+                .Where(x => x.Users.Contains(user) && x.Messages.Count > 0)
                 .Include(x => x.Messages)
                 .ThenInclude(x => x.User);
+            if (rooms == null || rooms.Count() == 0)
+            {
+                _logger.LogInformation("No room found. UserId: {userId}", userId);
+                return NotFound();
+            }
+            _logger.LogInformation("Conversations listed. UserId: {userId}", userId);
             return Ok(rooms.Select(x => x.AsConversationDto()));
         }
         catch (Exception ex)

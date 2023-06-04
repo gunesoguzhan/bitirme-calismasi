@@ -10,4 +10,7 @@ public static class RoomExtensions
 
     public static ConversationDto AsConversationDto(this Room room)
         => new ConversationDto(room.Id, room.Messages.LastOrDefault()?.AsDto(), room.AsDto());
+
+    public static PeerRoomResponseDto AsPeerRoomDto(this Room entity, bool created = false)
+        => new PeerRoomResponseDto(entity.Id, created);
 }

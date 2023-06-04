@@ -34,7 +34,7 @@ namespace Meet.ProfileService.WebAPI.DataAccess.Migrations
 
                     b.HasIndex("SenderId");
 
-                    b.ToTable("FriendshipRequests");
+                    b.ToTable("FriendshipRequests", (string)null);
                 });
 
             modelBuilder.Entity("Friendships", b =>
@@ -49,7 +49,7 @@ namespace Meet.ProfileService.WebAPI.DataAccess.Migrations
 
                     b.HasIndex("Profile2Id");
 
-                    b.ToTable("Friendships");
+                    b.ToTable("Friendships", (string)null);
                 });
 
             modelBuilder.Entity("Meet.ProfileService.WebAPI.Entities.Profile", b =>
@@ -70,7 +70,7 @@ namespace Meet.ProfileService.WebAPI.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Profiles");
+                    b.ToTable("Profiles", (string)null);
                 });
 
             modelBuilder.Entity("FriendshipRequests", b =>

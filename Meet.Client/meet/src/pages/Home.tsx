@@ -1,9 +1,7 @@
-import { MainLayoutProvider } from '../contexts/MainLayoutContext'
+import { Navigate } from 'react-router-dom'
 
 export function Home() {
     return (
-        <MainLayoutProvider>
-            <div></div>
-        </MainLayoutProvider>
+        <Navigate to={'/messages'} />
     )
 }

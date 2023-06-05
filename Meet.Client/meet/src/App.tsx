@@ -5,12 +5,14 @@ import { Messages } from './pages/Messages'
 import { ProtectedRoute } from './components/routes/ProtectedRoute'
 import { Register } from './pages/Register'
 import { Friends } from './pages/Friends'
+import { VideoRoom } from './pages/VideoRoom'
 
 export function App() {
     return (
         <Routes>
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
+            <Route path='/meet' element={<VideoRoom/>} />
             <Route element={<ProtectedRoute />}>
                 <Route path='/' element={<Home />} />
                 <Route path='/messages' element={<Messages />} />

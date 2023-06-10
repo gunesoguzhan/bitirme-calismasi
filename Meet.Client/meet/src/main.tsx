@@ -6,11 +6,9 @@ import { AuthProvider } from './contexts/AuthContext.tsx'
 import { App } from './App.tsx'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
     <BrowserRouter>
       <AuthProvider>
         <App />
       </AuthProvider>
     </BrowserRouter>
-  </React.StrictMode>
 )

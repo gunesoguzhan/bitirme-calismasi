@@ -4,7 +4,7 @@ import { LoginUserModel } from '../types/LoginUserModel'
 import { useContext } from 'react'
 import { AuthContext } from '../contexts/AuthContext'
 
-export function Login() {
+export function LoginPage() {
 
     const authContext = useContext(AuthContext)
     const { register, handleSubmit, formState: { errors } } = useForm<LoginUserModel>()

@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from 'react'
 import { MessageItem } from './MessageItem'
 import { MessageModel } from '../../types/MessageModel'
 import { MainLayoutContext } from '../../contexts/MainLayoutContext'
-import { Link } from 'react-router-dom'
 import axiosInstance from '../../axiosInstance'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { AuthContext } from '../../contexts/AuthContext'
@@ -16,6 +15,20 @@ export function MessagePanel(props: MessagePanelProps) {
     const socket = useContext(SocketContext)
 
     useEffect(() => {
+
+        const messageReceived = (message: MessageModel) => {
+            console.log(message)
+            setMessages([...messages, message])
+        }
+        
+        socket?.on("message:received", messageReceived)
+        
+        return (() => {
+            socket?.off("message:received", messageReceived)
+        })
+    }, [messages, socket])
+
+    useEffect(() => {
         axiosInstance.get(`/api/messages?roomId=${props.conversationId}`)
             .then(response => setMessages(response.data))
     }, [props.conversationId])
@@ -26,6 +39,7 @@ export function MessagePanel(props: MessagePanelProps) {
     }, [hideNavbar, showNavbar])
 
     const { register, handleSubmit, reset } = useForm<MessageModel>()
+
     const onSubmit: SubmitHandler<MessageModel> = async (data) => {
         data.date = new Date()
         data.sender = authContext?.user as UserModel
@@ -35,23 +49,16 @@ export function MessagePanel(props: MessagePanelProps) {
         reset()
     }
 
-    const messageReceived = (message: MessageModel) => {
-        console.log(message)
-        setMessages([...messages, message])
-    }
-
-    socket?.on("message:received", messageReceived)
-
     return (
-        <div className='flex flex-col basis-full h-full overflow-hidden'>
+        <div className={`flex flex-col h-full overflow-hidden ${props.style}`}>
             <div className='m-[15px] text-2xl'>
-                <Link to='/messages' className='outline-none md:hidden rounded-lg hover:bg-slate-800 focus:bg-slate-600 transition-all ease-out duration-150 p-2' >
+                <button onClick={props.onClose} className='outline-none md:hidden rounded-lg hover:bg-slate-800 focus:bg-slate-600 transition-all ease-out duration-150 p-2' >
                     <span
                         className='pb-[3px] px-[20px] py-[0px] h-[10px] bg-contain bg-no-repeat bg-left'
                         style={{ backgroundImage: `url(/icons/back-light.png)` }}>
                     </span>
                     <span className='pr-4'>{props.conversationTitle}</span>
-                </Link>
+                </button>
                 <div className='hidden md:block ml-[20px]'>{props.conversationTitle}</div>
             </div>
             <ul className='basis-full overflow-y-auto'>
@@ -86,4 +93,6 @@ export function MessagePanel(props: MessagePanelProps) {
 type MessagePanelProps = {
     conversationId?: string
     conversationTitle?: string
+    style?: string
+    onClose: React.MouseEventHandler<HTMLButtonElement>
 }

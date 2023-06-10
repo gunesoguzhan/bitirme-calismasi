@@ -15,37 +15,41 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     const [socket] = useState(io(URL, { autoConnect: false }))
     const authContext = useContext(AuthContext)
 
-    const joinRoom = (roomId: string) => {
-        socket.emit('room:join', roomId, authContext?.user)
-    }
-
-    const friendshipRequestReceived = (user: UserModel) => {
-        //show popup
-    }
-
-    const friendshipRequestAccepted = (user: UserModel) => {
-        //show popup
-    }
-
-    socket.on('room:created', joinRoom)
-    socket.on('friendship:requestReceived', friendshipRequestReceived)
-    socket.on('friendship:requestAccepted', friendshipRequestAccepted)
-
     useEffect(() => {
         const token = localStorage.getItem('token')
         socket.auth = {
             token: token
         }
         socket.connect()
-        axiosInstance.get("/api/rooms")
-            .then(response => {
-                if (response.status !== 200)
-                    return
-                const rooms: RoomModel[] = response.data
-                rooms.map(room => socket.emit('room:join', room.id, authContext?.user))
-            })
+        // axiosInstance.get("/api/rooms")
+        //     .then(response => {
+        //         if (response.status !== 200)
+        //             return
+        //         const rooms: RoomModel[] = response.data
+        //         rooms.map(room => socket.emit('room:join', room.id, authContext?.user))
+        //     })
+
+
+        const joinRoom = (roomId: string) => {
+            socket.emit('room:join', roomId, authContext?.user)
+        }
+
+        const friendshipRequestReceived = (user: UserModel) => {
+            //show popup
+        }
+    
+        const friendshipRequestAccepted = (user: UserModel) => {
+            //show popup
+        }
+
+        socket.on('room:created', joinRoom)
+        socket.on('friendship:requestReceived', friendshipRequestReceived)
+        socket.on('friendship:requestAccepted', friendshipRequestAccepted)
 
         return () => {
+            socket.off('room:created', joinRoom)
+            socket.off('friendship:requestReceived', friendshipRequestReceived)
+            socket.off('friendship:requestAccepted', friendshipRequestAccepted)
             socket.disconnect()
         }
     }, [socket])

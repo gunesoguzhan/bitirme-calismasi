@@ -3,7 +3,7 @@ import { useForm, SubmitHandler } from "react-hook-form"
 import { RegisterUserModel } from '../types/RegisterUserModel'
 import axiosInstance from '../axiosInstance'
 
-export function Register() {
+export function RegisterPage() {
     const navigate = useNavigate()
     const { register, handleSubmit, watch, formState: { errors } } = useForm<RegisterUserModel>()
     const onSubmit: SubmitHandler<RegisterUserModel> = data => {

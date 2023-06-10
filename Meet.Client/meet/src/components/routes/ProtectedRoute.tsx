@@ -5,5 +5,6 @@ import { SocketProvider } from '../../contexts/SocketContext'
 
 export function ProtectedRoute() {
     const authContext = useContext(AuthContext)
-    return authContext?.user ? <SocketProvider><Outlet /></SocketProvider> : <Navigate to={'/login'} />
+    // return authContext?.user ? <SocketProvider><Outlet /></SocketProvider> : <Navigate to={'/login'} />
+    return <SocketProvider><Outlet /></SocketProvider>
 }

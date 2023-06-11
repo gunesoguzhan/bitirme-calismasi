@@ -21,7 +21,6 @@ export function VideoLobby(props: VideoLobbyPropsTypes) {
                 console.error('Error accessing media devices.', error)
             }
         }
-
         startLocalVideo()
     }, [])
 

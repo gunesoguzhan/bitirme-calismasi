@@ -3,7 +3,7 @@ import { Socket, io } from 'socket.io-client'
 import { RoomModel } from '../types/RoomModel'
 import { AuthContext } from './AuthContext'
 import axiosInstance from '../axiosInstance'
-import { UserModel } from '../types/UserModel'
+// import { UserModel } from '../types/UserModel'
 
 const URL = process.env.NODE_ENV === 'production'
     ? "http://meet-reverse-proxy:3000"
@@ -34,25 +34,25 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
             socket.emit('room:join', roomId, authContext?.user)
         }
 
-        const friendshipRequestReceived = (user: UserModel) => {
-            //show popup
-        }
+        // const friendshipRequestReceived = (user: UserModel) => {
+        //     //show popup
+        // }
 
-        const friendshipRequestAccepted = (user: UserModel) => {
-            //show popup
-        }
+        // const friendshipRequestAccepted = (user: UserModel) => {
+        //     //show popup
+        // }
 
         socket.on('room:created', joinRoom)
-        socket.on('friendship:requestReceived', friendshipRequestReceived)
-        socket.on('friendship:requestAccepted', friendshipRequestAccepted)
+        // socket.on('friendship:requestReceived', friendshipRequestReceived)
+        // socket.on('friendship:requestAccepted', friendshipRequestAccepted)
 
         return () => {
             socket.off('room:created', joinRoom)
-            socket.off('friendship:requestReceived', friendshipRequestReceived)
-            socket.off('friendship:requestAccepted', friendshipRequestAccepted)
+            // socket.off('friendship:requestReceived', friendshipRequestReceived)
+            // socket.off('friendship:requestAccepted', friendshipRequestAccepted)
             socket.disconnect()
         }
-    }, [socket])
+    }, [authContext?.user, socket])
 
     return (
         <SocketContext.Provider value={socket}>

@@ -27,13 +27,13 @@ export function Navbar(props: NavbarProps) {
                         href='/messages'
                         collapsed={collapsed} />
                 </li>
-                <li className="basis-full md:basis-[60px]">
+                {/* <li className="basis-full md:basis-[60px]">
                     <NavbarItem
                         text='Calls'
                         icon='/icons/calls-light.png'
                         href='/calls'
                         collapsed={collapsed} />
-                </li>
+                </li> */}
                 <li className="basis-full md:basis-[60px]">
                     <NavbarItem
                         text='Friends'
@@ -48,8 +48,23 @@ export function Navbar(props: NavbarProps) {
                     <NavbarItem
                         text={`${authContext?.user?.firstName} ${authContext?.user?.lastName}`}
                         icon='/icons/user-light.png'
-                        href={`/user/${authContext?.user?.id}`}
+                        href={`/`}
                         collapsed={collapsed} />
+                </li>
+                <li className="basis-full md:basis-[60px]">
+                    <div className='w-full h-full'>
+                        <button
+                            onClick={() => authContext?.logout()}
+                            className='flex pt-2 rounded-t-lg md:rounded-none md:rounded-r-lg md:pt-0 md:pl-4 text-sm flex-col md:flex-row w-full h-full items-center transition-all ease-in-out duration-150 md:hover:border-l-8 outline-none'>
+                            <div
+                                className="w-6 h-6 bg-cover md:mr-4"
+                                style={{ backgroundImage: `url(/icons/leave-light.png)` }} />
+                            <span
+                                className={collapsed ? 'md:hidden' : ''}>
+                                Logout
+                            </span>
+                        </button>
+                    </div>
                 </li>
             </ul>
         </div>

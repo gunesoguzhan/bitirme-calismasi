@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   # mssql for microservices
-  # docker run --name mssql --restart unsless-stopped -e ACCEPT_EULA=Y -e MSSQL_SA_PASSWORD=Qwer1234! -p 1433:1433 mcr.microsoft.com/mssql/server:2022-latest
+  # docker run --name mssql --restart unless-stopped -e ACCEPT_EULA=Y -e MSSQL_SA_PASSWORD=Qwer1234! -p 1433:1433 mcr.microsoft.com/mssql/server:2022-latest
   mssql:
     image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: mssql
@@ -30,7 +30,7 @@ services:
     hostname: rabbitmq
 
     # redis for signalling service
-    # docker run --name redis --restart unless-stopped -p 6379:6379 redis
+    # docker run -d --name redis --restart unless-stopped -p 6379:6379 redis
   redis:
     image: redis
     container_name: redis
@@ -39,7 +39,7 @@ services:
       - 6379:6379
 
   # datalust/seq for centralized logging both ASP.NET Core and Node.js apps.
-  # docker run --name seq --restart unless-stopped -e ACCEPT_EULA=Y -p 80:80 -p 5341:5341 -v seq-logs:/data datalust/seq
+  # docker run -d --name seq --restart unless-stopped -e ACCEPT_EULA=Y -p 80:80 -p 5341:5341 -v seq-logs:/data datalust/seq
   seq:
     image: datalust/seq
     container_name: seq

@@ -119,7 +119,7 @@ public class RoomController : ControllerBase
                 friend.Rooms.Add(room);
             await _dbContext.SaveChangesAsync();
             _logger.LogInformation("Room listed. RoomId: {roomId}, userId: {userId}", room.Id, userId);
-            return Ok(room.AsPeerRoomDto(created));
+            return Ok(room.AsPeerRoomDto($"{friend.FirstName} {friend.LastName}", created));
         }
         catch (Exception ex)
         {

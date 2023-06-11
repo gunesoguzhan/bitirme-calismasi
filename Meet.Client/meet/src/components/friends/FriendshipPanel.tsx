@@ -31,10 +31,10 @@ export function FriendshipPanel(props: FriendshipPanelProps) {
         socket?.emit('friendship:cancelRequest', authContext?.user, user)
     }
 
-    const removeFriendship = (user: UserModel) => {
-        setFriends(friends?.filter(x => x.id != user.id))
-        socket?.emit('friendship:remove', authContext?.user, user)
-    }
+    // const removeFriendship = (user: UserModel) => {
+    //     setFriends(friends?.filter(x => x.id != user.id))
+    //     socket?.emit('friendship:remove', authContext?.user, user)
+    // }
 
     const findOrCreateRoom = async (user: UserModel) => {
         const response = await axiosInstance
@@ -105,8 +105,9 @@ export function FriendshipPanel(props: FriendshipPanelProps) {
                                     <button className='bg-[#190d30] outline-none rounded-lg hover:bg-slate-800 active:bg-slate-600 transition-all ease-out duration-150 p-2'
                                         onClick={async () => {
                                             const room = await findOrCreateRoom(x)
+                                            console.log(authContext?.user)
                                             socket?.emit('call:called', { date: new Date(), caller: authContext?.user, room: room })
-                                            navigate(`/meet/${room?.id}`)
+                                            navigate(`/call?meetingId=${room?.id}&title=${room?.title}`)
                                         }}>
                                         <span
                                             className='pb-[3px] px-[10px] py-[0px] h-[10px] bg-contain bg-no-repeat bg-left'

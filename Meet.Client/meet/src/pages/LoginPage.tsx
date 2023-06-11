@@ -15,7 +15,7 @@ export function LoginPage() {
     return (
         <div className="min-h-screen flex items-center justify-center">
             <div className="max-w-md w-full p-6 rounded-lg shadow-lg">
-                <h1 className="text-3xl font-bold text-center mb-8 border-gray-600 font-bold">
+                <h1 className="text-3xl text-center mb-8 border-gray-600 font-bold">
                     Welcome back!
                 </h1>
                 <form onSubmit={handleSubmit(onSubmit)}>

@@ -27,13 +27,13 @@ export function Navbar(props: NavbarProps) {
                         href='/messages'
                         collapsed={collapsed} />
                 </li>
-                <li className="basis-full md:basis-[60px]">
+                {/* <li className="basis-full md:basis-[60px]">
                     <NavbarItem
                         text='Calls'
                         icon='/icons/calls-light.png'
                         href='/calls'
                         collapsed={collapsed} />
-                </li>
+                </li> */}
                 <li className="basis-full md:basis-[60px]">
                     <NavbarItem
                         text='Friends'

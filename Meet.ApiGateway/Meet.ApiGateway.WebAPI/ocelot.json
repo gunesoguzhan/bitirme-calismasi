@@ -189,6 +189,42 @@
                 "AuthenticationProviderKey": "jsonwebtoken",
                 "AllowedScopes": []
             }
+        },
+        {
+            "DownstreamPathTemplate": "/call/{callId}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "meet-room-service",
+                    "Port": 80
+                }
+            ],
+            "UpstreamPathTemplate": "/api/calls?callId={callId}",
+            "UpstreamHttpMethod": [
+                "GET"
+            ],
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "jsonwebtoken",
+                "AllowedScopes": []
+            }
+        },
+        {
+            "DownstreamPathTemplate": "/call",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "meet-room-service",
+                    "Port": 80
+                }
+            ],
+            "UpstreamPathTemplate": "/api/calls",
+            "UpstreamHttpMethod": [
+                "GET"
+            ],
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "jsonwebtoken",
+                "AllowedScopes": []
+            }
         }
     ],
     "GlobalConfiguration": {

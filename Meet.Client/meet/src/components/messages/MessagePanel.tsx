@@ -20,7 +20,6 @@ export function MessagePanel(props: MessagePanelProps) {
             setMessages([...messages, message])
         }
         const event = socket?.listeners('message:received')[0]
-        console.log(event)
         socket?.off("message:received")
         socket?.on("message:received", messageReceived)
 

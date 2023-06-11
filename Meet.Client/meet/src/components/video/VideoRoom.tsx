@@ -1,12 +1,9 @@
 import { useContext, useEffect, useState, useRef } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { SocketContext } from '../../contexts/SocketContext'
 import { PeerConnection } from '../../types/PeerConnection'
 import { VideoButton } from './VideoButton'
 import { MessagePanel } from '../messages/MessagePanel'
-
-//multiple user problem
-//with room id
 
 export const VideoRoom = (props: VideoRoomPropsTypes) => {
     const [isChatOpen, setIsChatOpen] = useState(false)
@@ -37,12 +34,12 @@ export const VideoRoom = (props: VideoRoomPropsTypes) => {
         function waitForLocalStream() {
             if (!localStream) return
             clearInterval(interval)
-            socket?.emit('video:userJoined', '123')
+            socket?.emit('video:userJoined', props.meetingId)
         }
         return () => {
-            socket?.emit('video:userLeft', '123')
+            socket?.emit('video:userLeft', props.meetingId)
         }
-    }, [localStream, socket])
+    }, [localStream, props.meetingId, socket])
 
     useEffect(() => {
         const createPeerConnection = (id: string) => {
@@ -52,7 +49,6 @@ export const VideoRoom = (props: VideoRoomPropsTypes) => {
             let flag = false
 
             pc.ontrack = (e) => {
-                console.log(`on track!!!! ${id}`)
                 if (flag) return
                 flag = true
                 const video = document.querySelector(`#peer-${peer.remoteId} > video`) as HTMLVideoElement
@@ -67,7 +63,6 @@ export const VideoRoom = (props: VideoRoomPropsTypes) => {
 
         const createOffer = async (remoteId: string) => {
             const pc = createPeerConnection(remoteId)
-            console.log(peers)
             const dataChannel = pc.createDataChannel(`channel-${remoteId}`)
             dataChannel.onopen = () => console.log(`Connection opened. ${remoteId}`)
             let flag = false
@@ -194,9 +189,9 @@ export const VideoRoom = (props: VideoRoomPropsTypes) => {
                 </div>
             </div>
             <MessagePanel
-                conversationId="123"
+                conversationId={props.meetingId}
                 conversationTitle="Public Chat"
-                style={`lg:flex lg:min-w-[320px] lg:max-w-[320px] #0a0c14] ${isChatOpen === true ? 'basis-full' : 'hidden'}`}
+                style={`lg:flex lg:min-w-[320px] lg:max-w-[320px] bg-[#0a0c14] ${isChatOpen === true ? 'basis-full' : 'hidden'}`}
                 onClose={() => setIsChatOpen(false)}
             />
         </div>
@@ -207,4 +202,5 @@ export const VideoRoom = (props: VideoRoomPropsTypes) => {
 type VideoRoomPropsTypes = {
     mic: boolean
     cam: boolean
+    meetingId?: string
 }

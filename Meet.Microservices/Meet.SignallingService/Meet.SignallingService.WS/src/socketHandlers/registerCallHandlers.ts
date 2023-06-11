@@ -2,6 +2,7 @@ import { CallModel } from '../models/callModel'
 import { logger } from '../logger'
 import { Server, Socket } from 'socket.io'
 import { publishMessage } from '../amqp'
+import * as redis from '../redisHandler'
 
 export const registerCallHandlers = (io: Server, socket: Socket) => {
     const called = (call: CallModel) => {
@@ -13,16 +14,19 @@ export const registerCallHandlers = (io: Server, socket: Socket) => {
         logger.info(`Message published to queue. CallerId: ${call.caller.id} SocketId: ${socket.id} RoomId: ${call.room.id}} QueueName: ${queueName}`)
     }
 
-    const callCancelled = () => {
-        // aranan adama bilgi gitmeli
+    const callCancelled = (callId: string) => {
+        logger.info(`Call cancelled. SocketId: ${socket.id} RoomId: ${callId}}`)
+        socket.to(callId).emit('call:cancelled')
     }
 
-    const callRejected = () => {
-        // arayan adama bilgi gitmeli
+    const callRejected = async (call: CallModel) => {
+        logger.info(`Call rejected. CallerId: ${call.caller.id} SocketId: ${socket.id} RoomId: ${call.room.id}}`)
+        socket.to(await redis.get(call.caller.id)).emit('call:rejected')
     }
 
-    const callAccepted = () => {
-        // arayan adama bilgi gitmeli
+    const callAccepted = async (call: CallModel) => {
+        logger.info(`Call accepted. CallerId: ${call.caller.id} SocketId: ${socket.id} RoomId: ${call.room.id}}`)
+        socket.to(await redis.get(call.caller.id)).emit('call:accepted')
     }
 
     socket.on('call:called', called)

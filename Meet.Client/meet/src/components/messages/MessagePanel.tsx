@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { MessageItem } from './MessageItem'
 import { MessageModel } from '../../types/MessageModel'
 import { MainLayoutContext } from '../../contexts/MainLayoutContext'
@@ -13,20 +13,26 @@ export function MessagePanel(props: MessagePanelProps) {
     const { hideNavbar, showNavbar } = useContext(MainLayoutContext)
     const authContext = useContext(AuthContext)
     const socket = useContext(SocketContext)
+    const messagesUListRef = useRef<HTMLUListElement>(null)
 
     useEffect(() => {
-
         const messageReceived = (message: MessageModel) => {
-            console.log(message)
             setMessages([...messages, message])
         }
-        
+        const event = socket?.listeners('message:received')[0]
+        console.log(event)
+        socket?.off("message:received")
         socket?.on("message:received", messageReceived)
-        
+
         return (() => {
             socket?.off("message:received", messageReceived)
+            event && socket?.on('message:received', event)
         })
     }, [messages, socket])
+
+    useEffect(() => {
+        messagesUListRef.current?.scrollTo({ top: messagesUListRef.current.scrollHeight, behavior: 'smooth' })
+    }, [messages])
 
     useEffect(() => {
         axiosInstance.get(`/api/messages?roomId=${props.conversationId}`)
@@ -61,10 +67,10 @@ export function MessagePanel(props: MessagePanelProps) {
                 </button>
                 <div className='hidden md:block ml-[20px]'>{props.conversationTitle}</div>
             </div>
-            <ul className='basis-full overflow-y-auto'>
-                {messages?.map(x => {
+            <ul ref={messagesUListRef} className='basis-full overflow-y-auto'>
+                {messages?.map((x, i) => {
                     return (
-                        <li key={x.id} className="px-4 py-2">
+                        <li key={i} className="px-4 py-2">
                             <MessageItem message={x} />
                         </li>
                     )

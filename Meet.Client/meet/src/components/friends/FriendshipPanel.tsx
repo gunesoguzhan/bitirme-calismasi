@@ -36,15 +36,14 @@ export function FriendshipPanel(props: FriendshipPanelProps) {
         socket?.emit('friendship:remove', authContext?.user, user)
     }
 
-    const findOrCreateRoom = (user: UserModel) => {
-        axiosInstance.post('/api/rooms/findOrCreatePeerRoom', { creator: authContext?.user, friend: user })
-            .then(response => {
-                if (response.status != 200) return
-                const peerRoom = response.data as PeerRoomModel
-                if (peerRoom.created)
-                    socket?.emit('room:peerCreated', peerRoom.id, authContext?.user, user)
-                navigate(`/messages/${peerRoom.id}`)
-            })
+    const findOrCreateRoom = async (user: UserModel) => {
+        const response = await axiosInstance
+            .post('/api/rooms/findOrCreatePeerRoom', { creator: authContext?.user, friend: user })
+        if (response.status != 200) return
+        const peerRoom = response.data as PeerRoomModel
+        if (peerRoom.created)
+            socket?.emit('room:peerCreated', peerRoom.id, authContext?.user, user)
+        return peerRoom
     }
 
     useEffect(() => {
@@ -94,14 +93,21 @@ export function FriendshipPanel(props: FriendshipPanelProps) {
                             <li key={x.id} className='mt-2'>
                                 <FriendshipItem user={x} >
                                     <button className='bg-[#190d30] outline-none rounded-lg hover:bg-slate-800 active:bg-slate-600 transition-all ease-out duration-150 p-2 mr-3'
-                                        onClick={() => findOrCreateRoom(x)}>
+                                        onClick={async () => {
+                                            const room = await findOrCreateRoom(x)
+                                            navigate(`/messages/${room?.id}`)
+                                        }}>
                                         <span
                                             className='pb-[3px] px-[10px] py-[0px] h-[10px] bg-contain bg-no-repeat bg-left'
                                             style={{ backgroundImage: `url(/icons/messages-light.png)` }}>
                                         </span>
                                     </button>
                                     <button className='bg-[#190d30] outline-none rounded-lg hover:bg-slate-800 active:bg-slate-600 transition-all ease-out duration-150 p-2'
-                                    >
+                                        onClick={async () => {
+                                            const room = await findOrCreateRoom(x)
+                                            socket?.emit('call:called', { date: new Date(), caller: authContext?.user, room: room })
+                                            navigate(`/meet/${room?.id}`)
+                                        }}>
                                         <span
                                             className='pb-[3px] px-[10px] py-[0px] h-[10px] bg-contain bg-no-repeat bg-left'
                                             style={{ backgroundImage: `url(/icons/camera-light.png)` }}>

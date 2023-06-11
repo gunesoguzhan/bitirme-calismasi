@@ -33,7 +33,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             setLoading(false)
             return
         }
-        var response = await axiosInstance.get('/api/profiles/')
+        const response = await axiosInstance.get('/api/profiles/')
         if (response.status !== 200) return
         setUser(response.data)
         setLoading(false)

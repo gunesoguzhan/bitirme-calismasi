@@ -26,7 +26,8 @@
             "Meet-FriendshipRequestAccepted",
             "Meet-FriendshipRequestRejected",
             "Meet-FriendshipRequestCancelled",
-            "Meet-FriendshipRemoved"
+            "Meet-FriendshipRemoved",
+            "Meet-CallReceived"
         ]
     },
     "redis": {

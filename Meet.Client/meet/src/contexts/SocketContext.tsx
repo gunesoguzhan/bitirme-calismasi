@@ -21,13 +21,13 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
             token: token
         }
         socket.connect()
-        // axiosInstance.get("/api/rooms")
-        //     .then(response => {
-        //         if (response.status !== 200)
-        //             return
-        //         const rooms: RoomModel[] = response.data
-        //         rooms.map(room => socket.emit('room:join', room.id, authContext?.user))
-        //     })
+        axiosInstance.get("/api/rooms")
+            .then(response => {
+                if (response.status !== 200)
+                    return
+                const rooms: RoomModel[] = response.data
+                rooms.map(room => socket.emit('room:join', room.id, authContext?.user))
+            })
 
 
         const joinRoom = (roomId: string) => {
@@ -37,7 +37,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
         const friendshipRequestReceived = (user: UserModel) => {
             //show popup
         }
-    
+
         const friendshipRequestAccepted = (user: UserModel) => {
             //show popup
         }

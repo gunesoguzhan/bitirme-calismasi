@@ -26,5 +26,4 @@ export const registerVideoHandlers = (io: Server, socket: Socket) => {
     socket.on('video:userLeft', userLeft)
     socket.on('video:offerCreated', createAnswer)
     socket.on('video:answerCreated', setAnswer)
-    socket.on('disconnect', userLeft)
 }

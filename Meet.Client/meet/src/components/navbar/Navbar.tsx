@@ -43,7 +43,7 @@ export function Navbar(props: NavbarProps) {
                 </li>
             </ul>
             <div className="md:basis-full"></div>
-            <ul className='basis-48 md:basis-0 flex md:flex-col md:basis-0'>
+            <ul className='basis-48 md:basis-0 flex md:flex-col'>
                 <li className="basis-full md:basis-[60px]">
                     <NavbarItem
                         text={`${authContext?.user?.firstName} ${authContext?.user?.lastName}`}

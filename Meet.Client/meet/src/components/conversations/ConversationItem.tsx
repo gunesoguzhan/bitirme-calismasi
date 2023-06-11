@@ -11,12 +11,14 @@ export function ConversationItem(props: ConversationProps) {
                 return style
             }}>
             <div className={"bg-slate-800 flex items-center justify-center h-12 w-12 rounded-lg text-white text-xl"}>
-                {props.conversation.room.title.charAt(0).toLocaleUpperCase()}
+                {props.conversation.room.title.trim().length === 0 ? `${props.conversation.lastMessage?.sender.firstName.charAt(0)}${props.conversation.lastMessage?.sender.lastName.charAt(0)}`
+                    : props.conversation.room.title.charAt(0).toLocaleUpperCase()}
             </div>
             <div className="flex-1 overflow-hidden flex flex-col pl-3">
-                <div className="text-lg truncate">{props.conversation.room.title}</div>
+                <div className="text-lg truncate">{props.conversation.room.title.trim().length === 0 ? `${props.conversation.lastMessage?.sender.firstName} ${props.conversation.lastMessage?.sender.lastName}`
+                    : props.conversation.room.title.charAt(0).toLocaleUpperCase()}</div>
                 <div className="text-sm text-gray-500 truncate">
-                    {`${props.conversation.lastMessage?.sender.firstName} ${props.conversation.lastMessage?.sender.firstName}`}: {props.conversation.lastMessage?.messageText}
+                    {props.conversation.room.title.trim().length === 0 ? props.conversation.lastMessage?.messageText : `${props.conversation.lastMessage?.sender.firstName} ${props.conversation.lastMessage?.sender.lastName}: ${props.conversation.lastMessage?.messageText}`}
                 </div>
             </div>
             <div className="flex flex-col justify-center text-sm text-right pr-2">
